@@ -101,7 +101,7 @@
 #+END_QUOTE
 * Working of OpenPose
 
-[[./openPose_pipeline.png]]
+[[./images/openPose_pipeline.png]]
 Each part of the pipeline will be explained in the following sections
 ** Parts and Pairs
 - A body *part* is an element of the body, like neck, left shoulder or right hip.
@@ -110,7 +110,7 @@ Each part of the pipeline will be explained in the following sections
   definitely not a limb. Also, we are going to deal with connections
   between ears and shoulders that do not exist in real life.
 
-  [[file:parts_pairs.png]]
+  [[./images/parts_pairs.png]]
 ** Tensorflow Implementation
 *** Preprocessing 
    - First but not least, we convert the image from [0,
@@ -125,14 +125,14 @@ Each part of the pipeline will be explained in the following sections
      *heatmaps* and *PAF's*. The understanding of these two tensors is
      essential.  
 
-     [[./hm_paf.png]]
+     [[./images/hm_paf.png]]
      1. A *heatmap* is a matrix that stores the confidence the network has
         that a certain pixel contains a certain part. There are *18 (+1)*
         *heatmaps* associated with each one of the parts and indexed as we
         showed in the drawing of the skeletons. We will extract the
         location of the body parts out of these 18 matrices.
 
-        [[./heatmap.png]]
+        [[./images/heatmap.png]]
      2. *PAFs* (/Part Affinity Fields/) are matrices that give information
         about the position and orientation of pairs. They come in
         couples: for each part we have a PAF in the ‘x’ direction and a
@@ -141,7 +141,7 @@ Each part of the pipeline will be explained in the following sections
         skeletons. We will associate couples of parts into pairs thanks
         to these 38 matrices.
 
-        [[./paf.png]]
+        [[./images/paf.png]]
      Code implementation:
      #+BEGIN_SRC python
       import tensorflow as tf
@@ -164,7 +164,7 @@ We need to extract parts locations out of a heatmap. Or, in other
 words, we need to extract points out of a function. What are these
 points? The local maximums.
 
-[[./nms.png]]
+[[./images/nms.png]]
 
 We apply a non-maximum suppression (NMS) algorithm to get those peaks.
 1. Start in the first pixel of the heatmap.
@@ -196,7 +196,7 @@ hips. So, what we have, is a [[https://en.wikipedia.org/wiki/Complete_bipartite_
 vertices are the part candidates, and the edges are the connection
 candidates.
 
-[[./bipartite_graph.png]]
+[[./images/bipartite_graph.png]]
 
 How can we find the right connections? Finding the best matching
 between vertices of a bipartite graph is a well-known problem in graph
@@ -204,14 +204,14 @@ theory known as the [[https://en.wikipedia.org/wiki/Assignment_problem][assignme
 edge on the graph should have a weight. 
 *** Line Integral
 
-[[./line_integral.png]]
+[[./images/line_integral.png]]
 - The right connections can be found out by using line integral over PAF's
 - [[https://en.wikipedia.org/wiki/Line_integral][Line Integral]] measures the effect of a given field (in our case, the
   Part Affinity Fields) along a given curve (in our case, the possible
   connections between part candidates).
   (Ref: [[https://www.youtube.com/watch?v=uXjQ8yc9Pdg][Khan Academy]])
 
-  [[./line_integral2.png]]
+  [[./images/line_integral2.png]]
 - The line integral will give each connection a score, that will be
   saved in a weighted bipartite graph and will allow us to solve the
   assignment problem
@@ -252,7 +252,7 @@ score = sum(pafXs * vx + pafYs * vy) / num_samples
      connection.
   4. Repeat the step 3 until we are done.
 
-[[./assignment.png]]
+[[./images/assignment.png]]
 - As you see, there may be part candidates that will finally not fit into a pair.
 - Source Code
   #+BEGIN_SRC python
@@ -278,12 +278,12 @@ for conn_candidate in sorted(connection_temp, key=lambda x: x['score'], reverse=
   coordinate in the =‘x’= direction and a coordinate in the =‘y’=
   direction.
 
-  [[./merging.png]]
+  [[./images/merging.png]]
 - if humans H1 and H2 share a part index with the same coordinates,
   they are sharing the same part! H1 and H2 are, therefore, the same
   humans. So we merge both sets into H1 and remove H2.
 
-  [[./merging2.png]]
+  [[./images/merging2.png]]
 - We continue to do this for every couple of humans until no couple share a part.
 
 #+BEGIN_QUOTE
