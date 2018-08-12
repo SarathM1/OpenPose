@@ -708,3 +708,5 @@ if __name__ == '__main__':
 1. [[https://arvrjourney.com/human-pose-estimation-using-openpose-with-tensorflow-part-2-e78ab9104fc8][Human pose estimation using OpenPose with TensorFlow (Part 2)]]
 2. [[https://medium.com/brainjar/robust-real-time-pose-estimation-with-openpose-89ae39ee05ed][Robust Real-Time Pose Estimation with OpenPose]]
 3. [[https://github.com/CMU-Perceptual-Computing-Lab/openpose][OpenPose official github repo]]
+4. [[https://arxiv.org/pdf/1602.00134.pdf][Convolutional Pose Machines]]
+5. [[https://arxiv.org/pdf/1611.08050.pdf][Realtime Multi-Person 2D Pose Estimation using Part Affinity Fields]]
