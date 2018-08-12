@@ -79,7 +79,7 @@
   git clone https://github.com/alesolano/npy2ckpt
   #+END_SRC
 - Finally, here's the openpose code in Tensorflow
-  #+BEGIN_SRC python
+  #+BEGIN_SRC python -n
     import tensorflow as tf
     import cv2
 
@@ -146,7 +146,7 @@ Each part of the pipeline will be explained in the following sections
 *** Preprocessing 
    - First but not least, we convert the image from [0,
    255] to [-1, 1].
-   #+BEGIN_SRC python
+   #+BEGIN_SRC python -n
    img = img * (2.0 / 255.0) — 1.0
    #+END_SRC
 *** Neural network 
@@ -174,7 +174,7 @@ Each part of the pipeline will be explained in the following sections
 
         [[./images/paf.png]]
      Code implementation:
-     #+BEGIN_SRC python
+     #+BEGIN_SRC python -n
       import tensorflow as tf
 
       # get tensors
@@ -210,7 +210,7 @@ After all the process, the non-zero pixels denote the location of the
 part candidates.
 
 - Source code
-#+BEGIN_SRC python
+#+BEGIN_SRC python -n
 from scipy.ndimage.filters import maximum filter
 
 part_candidates = heatmap*(heatmap == maximum_filter(heatmap, footprint=np.ones((window_size, window_size))))
@@ -250,7 +250,7 @@ edge on the graph should have a weight.
 Note: in the code, we approximate the line integral by taking samples
 of the dot product and sum them all.
 #+END_QUOTE
-#+BEGIN_SRC python
+#+BEGIN_SRC python -n
 import math
 import numpy as np
 
@@ -286,7 +286,7 @@ score = sum(pafXs * vx + pafYs * vy) / num_samples
 [[./images/assignment.png]]
 - As you see, there may be part candidates that will finally not fit into a pair.
 - Source Code
-  #+BEGIN_SRC python
+  #+BEGIN_SRC python -n
 connection = []
 used_idx1, used_idx2 = [], []
 # sort possible connections by score, from maximum to minimum
@@ -323,7 +323,7 @@ as a set of connections, not as set of parts. After all the merging is
 done, we finally describe a human as a set of parts.
 #+END_QUOTE
 
-#+BEGIN_SRC python
+#+BEGIN_SRC python -n
 from collections import defaultdict
 import itertools
 
@@ -374,7 +374,7 @@ python inference.py --imgpath /path/to/your/img
 #+END_SRC
 **** Main files from the repo
 ***** inference.py
-#+BEGIN_SRC python
+#+BEGIN_SRC python -n
 '''
 All code is highly based on Ildoo Kim's code (https://github.com/ildoonet/tf-openpose)
 and derived from the OpenPose Library (https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/LICENSE)
@@ -450,7 +450,7 @@ if __name__ == '__main__':
         cv2.waitKey(0)
 #+END_SRC
 ***** common.py
-#+BEGIN_SRC python
+#+BEGIN_SRC python -n
   '''
   All code is highly based on Ildoo Kim's code (https://github.com/ildoonet/tf-openpose)
   and derived from the OpenPose Library (https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/LICENSE)

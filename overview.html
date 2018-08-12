@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2018-08-12 Sun 17:33 -->
+<!-- 2018-08-12 Sun 17:39 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Human pose estimation using OpenPose</title>
@@ -240,42 +240,42 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org0e58f18">1. OpenPose</a>
+<li><a href="#org49c945d">1. OpenPose</a>
 <ul>
-<li><a href="#org3144ce1">1.1. OpenPose vs Kinect</a></li>
-<li><a href="#orgc5ce718">1.2. Image Segmentation</a></li>
+<li><a href="#org05a0263">1.1. OpenPose vs Kinect</a></li>
+<li><a href="#orge1faf44">1.2. Image Segmentation</a></li>
 </ul>
 </li>
-<li><a href="#orgbc4d4b5">2. Porting from Caffe to Tensorflow</a></li>
-<li><a href="#orgf603279">3. Working of OpenPose</a>
+<li><a href="#org06fbe3d">2. Porting from Caffe to Tensorflow</a></li>
+<li><a href="#org3c475c0">3. Working of OpenPose</a>
 <ul>
-<li><a href="#org934c733">3.1. Parts and Pairs</a></li>
-<li><a href="#orgc0a0f77">3.2. Tensorflow Implementation</a>
+<li><a href="#org8a68e5e">3.1. Parts and Pairs</a></li>
+<li><a href="#orgd263a49">3.2. Tensorflow Implementation</a>
 <ul>
-<li><a href="#orgb5518db">3.2.1. Preprocessing</a></li>
-<li><a href="#org6e05943">3.2.2. Neural network</a></li>
-<li><a href="#orga8f7903">3.2.3. Non Maximum Suppression</a></li>
-<li><a href="#org3c3f0ae">3.2.4. Bipartite graph</a></li>
-<li><a href="#org6f1eb93">3.2.5. Line Integral</a></li>
-<li><a href="#orgbf48b16">3.2.6. Assignment</a></li>
-<li><a href="#org65971e7">3.2.7. Merging</a></li>
-<li><a href="#org26ee2da">3.2.8. Output</a></li>
+<li><a href="#org07ed491">3.2.1. Preprocessing</a></li>
+<li><a href="#org767547c">3.2.2. Neural network</a></li>
+<li><a href="#orgf5d0cdb">3.2.3. Non Maximum Suppression</a></li>
+<li><a href="#orge86c39a">3.2.4. Bipartite graph</a></li>
+<li><a href="#org7c679f1">3.2.5. Line Integral</a></li>
+<li><a href="#orgc7defbe">3.2.6. Assignment</a></li>
+<li><a href="#org6417d3a">3.2.7. Merging</a></li>
+<li><a href="#org27d7a86">3.2.8. Output</a></li>
 </ul>
 </li>
-<li><a href="#org4a123f0">3.3. Github Repository</a>
+<li><a href="#orgb37aba7">3.3. Github Repository</a>
 <ul>
-<li><a href="#orgc1f1436">3.3.1. Installation</a></li>
+<li><a href="#orgd008b40">3.3.1. Installation</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#orgbea3e21">4. Reference</a></li>
+<li><a href="#org7b5b5bf">4. Reference</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org0e58f18" class="outline-2">
-<h2 id="org0e58f18"><span class="section-number-2">1</span> OpenPose</h2>
+<div id="outline-container-org49c945d" class="outline-2">
+<h2 id="org49c945d"><span class="section-number-2">1</span> OpenPose</h2>
 <div class="outline-text-2" id="text-1">
 
 <div class="figure">
@@ -290,8 +290,8 @@ for the JavaScript code in this tag.
 </div>
 </div>
 
-<div id="outline-container-org3144ce1" class="outline-3">
-<h3 id="org3144ce1"><span class="section-number-3">1.1</span> OpenPose vs Kinect</h3>
+<div id="outline-container-org05a0263" class="outline-3">
+<h3 id="org05a0263"><span class="section-number-3">1.1</span> OpenPose vs Kinect</h3>
 <div class="outline-text-3" id="text-1-1">
 <ul class="org-ul">
 <li>both Kinect and Openpose have the same net result: allowing real
@@ -320,8 +320,8 @@ in Computer Vision: <b>image segmentation</b></li>
 </div>
 </div>
 
-<div id="outline-container-orgc5ce718" class="outline-3">
-<h3 id="orgc5ce718"><span class="section-number-3">1.2</span> Image Segmentation</h3>
+<div id="outline-container-orge1faf44" class="outline-3">
+<h3 id="orge1faf44"><span class="section-number-3">1.2</span> Image Segmentation</h3>
 <div class="outline-text-3" id="text-1-2">
 
 <div class="figure">
@@ -339,8 +339,8 @@ achieve.</li>
 </div>
 </div>
 </div>
-<div id="outline-container-orgbc4d4b5" class="outline-2">
-<h2 id="orgbc4d4b5"><span class="section-number-2">2</span> Porting from Caffe to Tensorflow</h2>
+<div id="outline-container-org06fbe3d" class="outline-2">
+<h2 id="org06fbe3d"><span class="section-number-2">2</span> Porting from Caffe to Tensorflow</h2>
 <div class="outline-text-2" id="text-2">
 <ul class="org-ul">
 <li>The OpenPose library is built upon a neural network and has been
@@ -390,53 +390,38 @@ To convert npy file to .ckpt file use
 </div></li>
 <li><p>
 Finally, here's the openpose code in Tensorflow
-0+BEGIN_SRC python -n
-  import tensorflow as tf
-  import cv2
 </p>
-
-<p>
-### GRAPH ###
-tf.reset_default_graph()
-</p>
-
-<p>
-saver = tf.train.import_meta_graph('/tmp/openpose_model.ckpt.meta')
-</p>
-
-<p>
-inputs = tf.get_default_graph().get_tensor_by_name('Placeholder:0')
-body = tf.get_default_graph().get_tensor_by_name('concat_stage7:0')
-</p>
-
-<p>
-print('The input placeholder is expecting an array of shape {} and type {}'.format(inputs.shape, inputs.dtype))
-</p>
-
-<p>
-### IMAGE ###
-img = cv2.imread('chuck-norris-kick.jpg')
-img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) 
-res_img = cv2.resize(img, (656, 368))
-prep_img = res_img.reshape([1, 368, 656, 3])
-</p>
-
-<p>
-### SESSION ###
-with tf.Session() as sess:
-    saver.restore(sess, '/tmp/openpose_model.ckpt')
-</p>
-
-<p>
-output_img = sess.run(body, feed_dict={
-        inputs: prep_img
-    })
-</p>
-
-<p>
-  print(output_img.shape)
-#+END_SRC
-</p></li>
+<div class="org-src-container">
+<pre class="src src-python"><span class="linenr"> 1: </span><span style="color: #0000FF;">import</span> tensorflow <span style="color: #0000FF;">as</span> tf
+<span class="linenr"> 2: </span><span style="color: #0000FF;">import</span> cv2
+<span class="linenr"> 3: </span>
+<span class="linenr"> 4: </span><span style="color: #8D8D84;">### </span><span style="color: #8D8D84; font-style: italic;">GRAPH ###</span>
+<span class="linenr"> 5: </span>tf.reset_default_graph<span style="color: #707183;">()</span>
+<span class="linenr"> 6: </span>
+<span class="linenr"> 7: </span><span style="color: #BA36A5;">saver</span> = tf.train.import_meta_graph<span style="color: #707183;">(</span><span style="color: #008000;">'/tmp/openpose_model.ckpt.meta'</span><span style="color: #707183;">)</span>
+<span class="linenr"> 8: </span>
+<span class="linenr"> 9: </span><span style="color: #BA36A5;">inputs</span> = tf.get_default_graph<span style="color: #707183;">()</span>.get_tensor_by_name<span style="color: #707183;">(</span><span style="color: #008000;">'Placeholder:0'</span><span style="color: #707183;">)</span>
+<span class="linenr">10: </span><span style="color: #BA36A5;">body</span> = tf.get_default_graph<span style="color: #707183;">()</span>.get_tensor_by_name<span style="color: #707183;">(</span><span style="color: #008000;">'concat_stage7:0'</span><span style="color: #707183;">)</span>
+<span class="linenr">11: </span>
+<span class="linenr">12: </span><span style="color: #0000FF;">print</span><span style="color: #707183;">(</span><span style="color: #008000;">'The input placeholder is expecting an array of shape {} and type {}'</span>.<span style="color: #006FE0;">format</span><span style="color: #7388D6;">(</span>inputs.shape, inputs.dtype<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr">13: </span>
+<span class="linenr">14: </span><span style="color: #8D8D84;">### </span><span style="color: #8D8D84; font-style: italic;">IMAGE ###</span>
+<span class="linenr">15: </span><span style="color: #BA36A5;">img</span> = cv2.imread<span style="color: #707183;">(</span><span style="color: #008000;">'chuck-norris-kick.jpg'</span><span style="color: #707183;">)</span>
+<span class="linenr">16: </span><span style="color: #BA36A5;">img</span> = cv2.cvtColor<span style="color: #707183;">(</span>img, cv2.COLOR_BGR2RGB<span style="color: #707183;">)</span> 
+<span class="linenr">17: </span><span style="color: #BA36A5;">res_img</span> = cv2.resize<span style="color: #707183;">(</span>img, <span style="color: #7388D6;">(</span>656, 368<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr">18: </span><span style="color: #BA36A5;">prep_img</span> = res_img.reshape<span style="color: #707183;">(</span><span style="color: #7388D6;">[</span>1, 368, 656, 3<span style="color: #7388D6;">]</span><span style="color: #707183;">)</span>
+<span class="linenr">19: </span>
+<span class="linenr">20: </span><span style="color: #8D8D84;">### </span><span style="color: #8D8D84; font-style: italic;">SESSION ###</span>
+<span class="linenr">21: </span><span style="color: #0000FF;">with</span> tf.Session<span style="color: #707183;">()</span> <span style="color: #0000FF;">as</span> sess:
+<span class="linenr">22: </span>    saver.restore<span style="color: #707183;">(</span>sess, <span style="color: #008000;">'/tmp/openpose_model.ckpt'</span><span style="color: #707183;">)</span>
+<span class="linenr">23: </span>
+<span class="linenr">24: </span>    <span style="color: #BA36A5;">output_img</span> = sess.run<span style="color: #707183;">(</span>body, feed_dict=<span style="color: #7388D6;">{</span>
+<span class="linenr">25: </span>            inputs: prep_img
+<span class="linenr">26: </span>        <span style="color: #7388D6;">}</span><span style="color: #707183;">)</span>
+<span class="linenr">27: </span>
+<span class="linenr">28: </span><span style="color: #0000FF;">print</span><span style="color: #707183;">(</span>output_img.shape<span style="color: #707183;">)</span>
+</pre>
+</div></li>
 <li>And the result is an image with 57 layers of depth. Mmmm… This is not exactly what I want. Why 57 layers?
 <ul class="org-ul">
 <li>18 layers for body parts location</li>
@@ -467,16 +452,16 @@ pose/bodyPartConnectorCaffe.cpp
 </ul>
 </div>
 </div>
-<div id="outline-container-orgf603279" class="outline-2">
-<h2 id="orgf603279"><span class="section-number-2">3</span> Working of OpenPose</h2>
+<div id="outline-container-org3c475c0" class="outline-2">
+<h2 id="org3c475c0"><span class="section-number-2">3</span> Working of OpenPose</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 <img src="./images/openPose_pipeline.png" alt="openPose_pipeline.png" />
 Each part of the pipeline will be explained in the following sections
 </p>
 </div>
-<div id="outline-container-org934c733" class="outline-3">
-<h3 id="org934c733"><span class="section-number-3">3.1</span> Parts and Pairs</h3>
+<div id="outline-container-org8a68e5e" class="outline-3">
+<h3 id="org8a68e5e"><span class="section-number-3">3.1</span> Parts and Pairs</h3>
 <div class="outline-text-3" id="text-3-1">
 <ul class="org-ul">
 <li>A body <b>part</b> is an element of the body, like neck, left shoulder or right hip.</li>
@@ -495,26 +480,27 @@ between ears and shoulders that do not exist in real life.
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc0a0f77" class="outline-3">
-<h3 id="orgc0a0f77"><span class="section-number-3">3.2</span> Tensorflow Implementation</h3>
+<div id="outline-container-orgd263a49" class="outline-3">
+<h3 id="orgd263a49"><span class="section-number-3">3.2</span> Tensorflow Implementation</h3>
 <div class="outline-text-3" id="text-3-2">
 </div>
-<div id="outline-container-orgb5518db" class="outline-4">
-<h4 id="orgb5518db"><span class="section-number-4">3.2.1</span> Preprocessing</h4>
+<div id="outline-container-org07ed491" class="outline-4">
+<h4 id="org07ed491"><span class="section-number-4">3.2.1</span> Preprocessing</h4>
 <div class="outline-text-4" id="text-3-2-1">
 <ul class="org-ul">
 <li>First but not least, we convert the image from [0,</li>
 </ul>
 <p>
 255] to [-1, 1].
-0+BEGIN_SRC python -n
-img = img * (2.0 / 255.0) — 1.0
-#+END_SRC
 </p>
+<div class="org-src-container">
+<pre class="src src-python"><span class="linenr">1: </span><span style="color: #BA36A5;">img</span> = img * <span style="color: #707183;">(</span>2.0 / 255.0<span style="color: #707183;">)</span> &#8212; 1.0
+</pre>
 </div>
 </div>
-<div id="outline-container-org6e05943" class="outline-4">
-<h4 id="org6e05943"><span class="section-number-4">3.2.2</span> Neural network</h4>
+</div>
+<div id="outline-container-org767547c" class="outline-4">
+<h4 id="org767547c"><span class="section-number-4">3.2.2</span> Neural network</h4>
 <div class="outline-text-4" id="text-3-2-2">
 <ul class="org-ul">
 <li><p>
@@ -562,28 +548,27 @@ to these 38 matrices.
 </ol>
 <p>
 Code implementation:
-0+BEGIN_SRC python -n
- import tensorflow as tf
 </p>
-
-<p>
-inputs = tf.get_default_graph().get_tensor_by_name('inputs:0')
-heatmaps_tensor = tf.get_default_graph().get_tensor_by_name('Mconv7_stage6_L2/BiasAdd:0')
-pafs_tensor = tf.get_default_graph().get_tensor_by_name('Mconv7_stage6_L1/BiasAdd:0')
-</p>
-
-<p>
- with tf.Session() as sess:
-     heatmaps, pafs = sess.run([heatmaps_tensor, pafs_tensor], feed_dict={
-         inputs: image
- })
-#+END_SRC
-</p></li>
+<div class="org-src-container">
+<pre class="src src-python"><span class="linenr"> 1: </span><span style="color: #0000FF;">import</span> tensorflow <span style="color: #0000FF;">as</span> tf
+<span class="linenr"> 2: </span>
+<span class="linenr"> 3: </span><span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">get tensors</span>
+<span class="linenr"> 4: </span><span style="color: #BA36A5;">inputs</span> = tf.get_default_graph<span style="color: #707183;">()</span>.get_tensor_by_name<span style="color: #707183;">(</span><span style="color: #008000;">'inputs:0'</span><span style="color: #707183;">)</span>
+<span class="linenr"> 5: </span><span style="color: #BA36A5;">heatmaps_tensor</span> = tf.get_default_graph<span style="color: #707183;">()</span>.get_tensor_by_name<span style="color: #707183;">(</span><span style="color: #008000;">'Mconv7_stage6_L2/BiasAdd:0'</span><span style="color: #707183;">)</span>
+<span class="linenr"> 6: </span><span style="color: #BA36A5;">pafs_tensor</span> = tf.get_default_graph<span style="color: #707183;">()</span>.get_tensor_by_name<span style="color: #707183;">(</span><span style="color: #008000;">'Mconv7_stage6_L1/BiasAdd:0'</span><span style="color: #707183;">)</span>
+<span class="linenr"> 7: </span>
+<span class="linenr"> 8: </span><span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">forward pass</span>
+<span class="linenr"> 9: </span><span style="color: #0000FF;">with</span> tf.Session<span style="color: #707183;">()</span> <span style="color: #0000FF;">as</span> sess:
+<span class="linenr">10: </span>    <span style="color: #BA36A5;">heatmaps</span>, <span style="color: #BA36A5;">pafs</span> = sess.run<span style="color: #707183;">(</span><span style="color: #7388D6;">[</span>heatmaps_tensor, pafs_tensor<span style="color: #7388D6;">]</span>, feed_dict=<span style="color: #7388D6;">{</span>
+<span class="linenr">11: </span>        inputs: image
+<span class="linenr">12: </span><span style="color: #7388D6;">}</span><span style="color: #707183;">)</span>
+</pre>
+</div></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orga8f7903" class="outline-4">
-<h4 id="orga8f7903"><span class="section-number-4">3.2.3</span> Non Maximum Suppression</h4>
+<div id="outline-container-orgf5d0cdb" class="outline-4">
+<h4 id="orgf5d0cdb"><span class="section-number-4">3.2.3</span> Non Maximum Suppression</h4>
 <div class="outline-text-4" id="text-3-2-3">
 <p>
 Next step is detecting the parts in the image.
@@ -622,19 +607,16 @@ part candidates.
 <ul class="org-ul">
 <li>Source code</li>
 </ul>
-<p>
-0+BEGIN_SRC python -n
-from scipy.ndimage.filters import maximum filter
-</p>
-
-<p>
-part_candidates = heatmap*(heatmap == maximum_filter(heatmap, footprint=np.ones((window_size, window_size))))
-#+END_SRC
-</p>
+<div class="org-src-container">
+<pre class="src src-python"><span class="linenr">1: </span><span style="color: #0000FF;">from</span> scipy.ndimage.filters <span style="color: #0000FF;">import</span> maximum <span style="color: #006FE0;">filter</span>
+<span class="linenr">2: </span>
+<span class="linenr">3: </span><span style="color: #BA36A5;">part_candidates</span> = heatmap*<span style="color: #707183;">(</span>heatmap == maximum_filter<span style="color: #7388D6;">(</span>heatmap, footprint=np.ones<span style="color: #909183;">(</span><span style="color: #709870;">(</span>window_size, window_size<span style="color: #709870;">)</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+</pre>
 </div>
 </div>
-<div id="outline-container-org3c3f0ae" class="outline-4">
-<h4 id="org3c3f0ae"><span class="section-number-4">3.2.4</span> Bipartite graph</h4>
+</div>
+<div id="outline-container-orge86c39a" class="outline-4">
+<h4 id="orge86c39a"><span class="section-number-4">3.2.4</span> Bipartite graph</h4>
 <div class="outline-text-4" id="text-3-2-4">
 <p>
 Now that we have found the candidates for each one of the body parts,
@@ -665,8 +647,8 @@ edge on the graph should have a weight.
 </p>
 </div>
 </div>
-<div id="outline-container-org6f1eb93" class="outline-4">
-<h4 id="org6f1eb93"><span class="section-number-4">3.2.5</span> Line Integral</h4>
+<div id="outline-container-org7c679f1" class="outline-4">
+<h4 id="org7c679f1"><span class="section-number-4">3.2.5</span> Line Integral</h4>
 <div class="outline-text-4" id="text-3-2-5">
 
 <div class="figure">
@@ -697,37 +679,32 @@ Note: in the code, we approximate the line integral by taking samples
 of the dot product and sum them all.
 </p>
 </blockquote>
-<p>
-0+BEGIN_SRC python -n
-import math
-import numpy as np
-</p>
-
-<p>
-dx, dy = x2 — x1, y2 — y1
-normVec = math.sqrt(dx <b>* 2 + dy *</b> 2)
-vx, vy = dx/normVec, dy/normVec
-</p>
-
-<p>
-num_samples = 10
-xs = np.arange(x1, x2, dx/num_samples).astype(np.int8)
-ys = np.arange(y1, y2, dy/num_samples).astype(np.int8)
-</p>
-
-<p>
-pafXs = pafX[ys, xs]
-pafYs = pafY[ys, xs]
-</p>
-
-<p>
-score = sum(pafXs * vx + pafYs * vy) / num_samples
-#+END_SRC
-</p>
+<div class="org-src-container">
+<pre class="src src-python"><span class="linenr"> 1: </span><span style="color: #0000FF;">import</span> math
+<span class="linenr"> 2: </span><span style="color: #0000FF;">import</span> numpy <span style="color: #0000FF;">as</span> np
+<span class="linenr"> 3: </span>
+<span class="linenr"> 4: </span><span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">building the vectors</span>
+<span class="linenr"> 5: </span><span style="color: #BA36A5;">dx</span>, <span style="color: #BA36A5;">dy</span> = x2 &#8212; x1, y2 &#8212; y1
+<span class="linenr"> 6: </span><span style="color: #BA36A5;">normVec</span> = math.sqrt<span style="color: #707183;">(</span>dx ** 2 + dy ** 2<span style="color: #707183;">)</span>
+<span class="linenr"> 7: </span><span style="color: #BA36A5;">vx</span>, <span style="color: #BA36A5;">vy</span> = dx/normVec, dy/normVec
+<span class="linenr"> 8: </span>
+<span class="linenr"> 9: </span><span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">sampling</span>
+<span class="linenr">10: </span><span style="color: #BA36A5;">num_samples</span> = 10
+<span class="linenr">11: </span><span style="color: #BA36A5;">xs</span> = np.arange<span style="color: #707183;">(</span>x1, x2, dx/num_samples<span style="color: #707183;">)</span>.astype<span style="color: #707183;">(</span>np.int8<span style="color: #707183;">)</span>
+<span class="linenr">12: </span><span style="color: #BA36A5;">ys</span> = np.arange<span style="color: #707183;">(</span>y1, y2, dy/num_samples<span style="color: #707183;">)</span>.astype<span style="color: #707183;">(</span>np.int8<span style="color: #707183;">)</span>
+<span class="linenr">13: </span>
+<span class="linenr">14: </span><span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">evaluating on the field</span>
+<span class="linenr">15: </span><span style="color: #BA36A5;">pafXs</span> = pafX<span style="color: #707183;">[</span>ys, xs<span style="color: #707183;">]</span>
+<span class="linenr">16: </span><span style="color: #BA36A5;">pafYs</span> = pafY<span style="color: #707183;">[</span>ys, xs<span style="color: #707183;">]</span>
+<span class="linenr">17: </span>
+<span class="linenr">18: </span><span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">integral</span>
+<span class="linenr">19: </span><span style="color: #BA36A5;">score</span> = <span style="color: #006FE0;">sum</span><span style="color: #707183;">(</span>pafXs * vx + pafYs * vy<span style="color: #707183;">)</span> / num_samples
+</pre>
 </div>
 </div>
-<div id="outline-container-orgbf48b16" class="outline-4">
-<h4 id="orgbf48b16"><span class="section-number-4">3.2.6</span> Assignment</h4>
+</div>
+<div id="outline-container-orgc7defbe" class="outline-4">
+<h4 id="orgc7defbe"><span class="section-number-4">3.2.6</span> Assignment</h4>
 <div class="outline-text-4" id="text-3-2-6">
 <ul class="org-ul">
 <li>Now, the weighted bipartite graph shows all connections between
@@ -751,30 +728,27 @@ connection.</li>
 </div>
 <ul class="org-ul">
 <li>As you see, there may be part candidates that will finally not fit into a pair.</li>
-<li>Source Code
-0+BEGIN_SRC python -n</li>
+<li><p>
+Source Code
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span class="linenr"> 1: </span><span style="color: #BA36A5;">connection</span> = <span style="color: #707183;">[]</span>
+<span class="linenr"> 2: </span><span style="color: #BA36A5;">used_idx1</span>, <span style="color: #BA36A5;">used_idx2</span> = <span style="color: #707183;">[]</span>, <span style="color: #707183;">[]</span>
+<span class="linenr"> 3: </span><span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">sort possible connections by score, from maximum to minimum</span>
+<span class="linenr"> 4: </span><span style="color: #0000FF;">for</span> conn_candidate <span style="color: #0000FF;">in</span> <span style="color: #006FE0;">sorted</span><span style="color: #707183;">(</span>connection_temp, key=<span style="color: #0000FF;">lambda</span> x: x<span style="color: #7388D6;">[</span><span style="color: #008000;">'score'</span><span style="color: #7388D6;">]</span>, reverse=<span style="color: #D0372D;">True</span><span style="color: #707183;">)</span>:
+<span class="linenr"> 5: </span>    <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">check not connected</span>
+<span class="linenr"> 6: </span>    <span style="color: #0000FF;">if</span> conn_candidate<span style="color: #707183;">[</span><span style="color: #008000;">'idx'</span><span style="color: #707183;">][</span>0<span style="color: #707183;">]</span> <span style="color: #0000FF;">in</span> used_idx1 <span style="color: #0000FF;">or</span> conn_candidate<span style="color: #707183;">[</span><span style="color: #008000;">'idx'</span><span style="color: #707183;">][</span>1<span style="color: #707183;">]</span> <span style="color: #0000FF;">in</span> used_idx2:
+<span class="linenr"> 7: </span>        <span style="color: #0000FF;">continue</span>
+<span class="linenr"> 8: </span>    connection.append<span style="color: #707183;">(</span>conn_candidate<span style="color: #707183;">)</span>
+<span class="linenr"> 9: </span>    used_idx1.append<span style="color: #707183;">(</span>conn_candidate<span style="color: #7388D6;">[</span><span style="color: #008000;">'idx'</span><span style="color: #7388D6;">][</span>0<span style="color: #7388D6;">]</span><span style="color: #707183;">)</span>
+<span class="linenr">10: </span>    used_idx2.append<span style="color: #707183;">(</span>conn_candidate<span style="color: #7388D6;">[</span><span style="color: #008000;">'idx'</span><span style="color: #7388D6;">][</span>1<span style="color: #7388D6;">]</span><span style="color: #707183;">)</span>
+</pre>
+</div></li>
 </ul>
-<p>
-connection = []
-used_idx1, used_idx2 = [], []
-</p>
-
-<p>
-for conn_candidate in sorted(connection_temp, key=lambda x: x['score'], reverse=True):
-</p>
-
-<p>
-  if conn_candidate['idx'][0] in used_idx1 or conn_candidate['idx'][1] in used_idx2:
-      continue
-  connection.append(conn_candidate)
-  used_idx1.append(conn_candidate['idx'][0])
-  used_idx2.append(conn_candidate['idx'][1])
-#+END_SRC
-</p>
 </div>
 </div>
-<div id="outline-container-org65971e7" class="outline-4">
-<h4 id="org65971e7"><span class="section-number-4">3.2.7</span> Merging</h4>
+<div id="outline-container-org6417d3a" class="outline-4">
+<h4 id="org6417d3a"><span class="section-number-4">3.2.7</span> Merging</h4>
 <div class="outline-text-4" id="text-3-2-7">
 <ul class="org-ul">
 <li>final step is to transform these detected connections into the final skeletons</li>
@@ -816,51 +790,37 @@ done, we finally describe a human as a set of parts.
 </p>
 </blockquote>
 
-<p>
-0+BEGIN_SRC python -n
-from collections import defaultdict
-import itertools
-</p>
-
-<p>
-no_merge_cache = defaultdict(list)
-empty_set = set()
-</p>
-
-<p>
-while True:
-    is_merged = False
-</p>
-
-<p>
-for h1, h2 in itertools.combinations(connections_by_human.keys(), 2):
-    for c1, c2 in itertools.product(connections_by_human[h1], connections_by_human[h2]):
-</p>
-
-<p>
-if set(c1['partCoordsAndIdx']) &amp; set(c2['partCoordsAndIdx']) != empty_set:
-    is_merged = True
-</p>
-
-<p>
-connections_by_human[h1].extend(connections_by_human[h2])
-connections_by_human.pop(h2) # delete human2
-break
-</p>
-
-<p>
-if not is_merged: # if no more mergings are possible, then break
-    break
-</p>
-
-<p>
-humans = [human_conns_to_human_parts(human_conns) for human_conns in connections_by_human.values()]
-#+END_SRC
-</p>
+<div class="org-src-container">
+<pre class="src src-python"><span class="linenr"> 1: </span><span style="color: #0000FF;">from</span> collections <span style="color: #0000FF;">import</span> defaultdict
+<span class="linenr"> 2: </span><span style="color: #0000FF;">import</span> itertools
+<span class="linenr"> 3: </span>
+<span class="linenr"> 4: </span><span style="color: #BA36A5;">no_merge_cache</span> = defaultdict<span style="color: #707183;">(</span><span style="color: #006FE0;">list</span><span style="color: #707183;">)</span>
+<span class="linenr"> 5: </span><span style="color: #BA36A5;">empty_set</span> = <span style="color: #006FE0;">set</span><span style="color: #707183;">()</span>
+<span class="linenr"> 6: </span>
+<span class="linenr"> 7: </span><span style="color: #0000FF;">while</span> <span style="color: #D0372D;">True</span>:
+<span class="linenr"> 8: </span>    <span style="color: #BA36A5;">is_merged</span> = <span style="color: #D0372D;">False</span>
+<span class="linenr"> 9: </span>
+<span class="linenr">10: </span>    <span style="color: #0000FF;">for</span> h1, h2 <span style="color: #0000FF;">in</span> itertools.combinations<span style="color: #707183;">(</span>connections_by_human.keys<span style="color: #7388D6;">()</span>, 2<span style="color: #707183;">)</span>:
+<span class="linenr">11: </span>        <span style="color: #0000FF;">for</span> c1, c2 <span style="color: #0000FF;">in</span> itertools.product<span style="color: #707183;">(</span>connections_by_human<span style="color: #7388D6;">[</span>h1<span style="color: #7388D6;">]</span>, connections_by_human<span style="color: #7388D6;">[</span>h2<span style="color: #7388D6;">]</span><span style="color: #707183;">)</span>:
+<span class="linenr">12: </span>            <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">if two humans share a part (same part idx and coordinates), merge those humans</span>
+<span class="linenr">13: </span>            <span style="color: #0000FF;">if</span> <span style="color: #006FE0;">set</span><span style="color: #707183;">(</span>c1<span style="color: #7388D6;">[</span><span style="color: #008000;">'partCoordsAndIdx'</span><span style="color: #7388D6;">]</span><span style="color: #707183;">)</span> &amp; <span style="color: #006FE0;">set</span><span style="color: #707183;">(</span>c2<span style="color: #7388D6;">[</span><span style="color: #008000;">'partCoordsAndIdx'</span><span style="color: #7388D6;">]</span><span style="color: #707183;">)</span> != empty_set:
+<span class="linenr">14: </span>                <span style="color: #BA36A5;">is_merged</span> = <span style="color: #D0372D;">True</span>
+<span class="linenr">15: </span>                <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">extend human1 connections with human2 connections</span>
+<span class="linenr">16: </span>                connections_by_human<span style="color: #707183;">[</span>h1<span style="color: #707183;">]</span>.extend<span style="color: #707183;">(</span>connections_by_human<span style="color: #7388D6;">[</span>h2<span style="color: #7388D6;">]</span><span style="color: #707183;">)</span>
+<span class="linenr">17: </span>                connections_by_human.pop<span style="color: #707183;">(</span>h2<span style="color: #707183;">)</span> <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">delete human2</span>
+<span class="linenr">18: </span>                <span style="color: #0000FF;">break</span>
+<span class="linenr">19: </span>
+<span class="linenr">20: </span>    <span style="color: #0000FF;">if</span> <span style="color: #0000FF;">not</span> is_merged: <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">if no more mergings are possible, then break</span>
+<span class="linenr">21: </span>        <span style="color: #0000FF;">break</span>
+<span class="linenr">22: </span>
+<span class="linenr">23: </span><span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">describe humans as a set of parts, not as a set of connections</span>
+<span class="linenr">24: </span><span style="color: #BA36A5;">humans</span> = <span style="color: #707183;">[</span>human_conns_to_human_parts<span style="color: #7388D6;">(</span>human_conns<span style="color: #7388D6;">)</span> <span style="color: #0000FF;">for</span> human_conns <span style="color: #0000FF;">in</span> connections_by_human.values<span style="color: #7388D6;">()</span><span style="color: #707183;">]</span>
+</pre>
 </div>
 </div>
-<div id="outline-container-org26ee2da" class="outline-4">
-<h4 id="org26ee2da"><span class="section-number-4">3.2.8</span> Output</h4>
+</div>
+<div id="outline-container-org27d7a86" class="outline-4">
+<h4 id="org27d7a86"><span class="section-number-4">3.2.8</span> Output</h4>
 <div class="outline-text-4" id="text-3-2-8">
 <p>
 Finally what you get is a collection of human sets, where each human
@@ -870,16 +830,16 @@ coordinates and its score.
 </div>
 </div>
 </div>
-<div id="outline-container-org4a123f0" class="outline-3">
-<h3 id="org4a123f0"><span class="section-number-3">3.3</span> Github Repository</h3>
+<div id="outline-container-orgb37aba7" class="outline-3">
+<h3 id="orgb37aba7"><span class="section-number-3">3.3</span> Github Repository</h3>
 <div class="outline-text-3" id="text-3-3">
 </div>
-<div id="outline-container-orgc1f1436" class="outline-4">
-<h4 id="orgc1f1436"><span class="section-number-4">3.3.1</span> Installation</h4>
+<div id="outline-container-orgd008b40" class="outline-4">
+<h4 id="orgd008b40"><span class="section-number-4">3.3.1</span> Installation</h4>
 <div class="outline-text-4" id="text-3-3-1">
 </div>
 <ol class="org-ol">
-<li><a id="orgbc3e972"></a>Dependencies<br />
+<li><a id="orga1b29a0"></a>Dependencies<br />
 <div class="outline-text-5" id="text-3-3-1-1">
 <ul class="org-ul">
 <li>Python 3</li>
@@ -891,7 +851,7 @@ coordinates and its score.
 </ul>
 </div>
 </li>
-<li><a id="orgc15fbe7"></a>Build the code<br />
+<li><a id="orgeee571a"></a>Build the code<br />
 <div class="outline-text-5" id="text-3-3-1-2">
 <div class="org-src-container">
 <pre class="src src-sh">git clone https://gist.github.com/alesolano/b073d8ec9603246f766f9f15d002f4f4 openpose_pipeline
@@ -905,464 +865,345 @@ python inference.py --imgpath /path/to/your/img
 </div>
 </div>
 </li>
-<li><a id="org4e2105a"></a>Main files from the repo<br />
+<li><a id="org85ba0ca"></a>Main files from the repo<br />
 <ol class="org-ol">
-<li><a id="orgcfab3ba"></a>inference.py<br />
+<li><a id="org7b4475e"></a>inference.py<br />
 <div class="outline-text-6" id="text-3-3-1-3-1">
-<p>
-0+BEGIN_SRC python -n
-'''
-All code is highly based on Ildoo Kim's code (<a href="https://github.com/ildoonet/tf-openpose">https://github.com/ildoonet/tf-openpose</a>)
-and derived from the OpenPose Library (<a href="https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/LICENSE">https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/LICENSE</a>)
-'''
-</p>
-
-<p>
-import tensorflow as tf
-import cv2
-import numpy as np
-import argparse
-</p>
-
-<p>
-from common import estimate_pose, draw_humans, read_imgfile
-</p>
-
-<p>
-import time
-</p>
-
-<p>
-if <span class="underline"><span class="underline">name</span></span> <code>= '__main__':
-    parser = argparse.ArgumentParser(description</code>'Tensorflow Openpose Inference')
-    parser.add_argument('&#x2013;imgpath', type=str, default='./images/wywh.jpg')
-    parser.add_argument('&#x2013;input-width', type=int, default=656)
-    parser.add_argument('&#x2013;input-height', type=int, default=368)
-    args = parser.parse_args()
-</p>
-
-<p>
-t0 = time.time()
-</p>
-
-<p>
-tf.reset_default_graph()
-</p>
-
-<p>
-from tensorflow.core.framework import graph_pb2
-graph_def = graph_pb2.GraphDef()
-</p>
-
-<p>
-with open('models/optimized_openpose.pb', 'rb') as f:
-    graph_def.ParseFromString(f.read())
-tf.import_graph_def(graph_def, name='')
-</p>
-
-<p>
-t1 = time.time()
-print(t1 - t0)
-</p>
-
-<p>
-inputs = tf.get_default_graph().get_tensor_by_name('inputs:0')
-heatmaps_tensor = tf.get_default_graph().get_tensor_by_name('Mconv7_stage6_L2/BiasAdd:0')
-pafs_tensor = tf.get_default_graph().get_tensor_by_name('Mconv7_stage6_L1/BiasAdd:0')
-</p>
-
-<p>
-t2 = time.time()
-print(t2 - t1)
-</p>
-
-<p>
-image = read_imgfile(args.imgpath, args.input_width, args.input_height)
-</p>
-
-<p>
-t3 = time.time()
-print(t3 - t2)
-</p>
-
-<p>
-with tf.Session() as sess:
-    heatMat, pafMat = sess.run([heatmaps_tensor, pafs_tensor], feed_dict={
-        inputs: image
-    })
-</p>
-
-<p>
-t4 = time.time()
-print(t4 - t3)
-</p>
-
-<p>
-heatMat, pafMat = heatMat[0], pafMat[0]
-</p>
-
-<p>
-humans = estimate_pose(heatMat, pafMat)
-</p>
-
-<p>
-image = cv2.imread(args.imgpath)
-image_h, image_w = image.shape[:2]
-image = draw_humans(image, humans)
-</p>
-
-<p>
-scale = 480.0 / image_h
-newh, neww = 480, int(scale * image_w + 0.5)
-</p>
-
-<p>
-image = cv2.resize(image, (neww, newh), interpolation=cv2.INTER_AREA)
-</p>
-
-<p>
-        cv2.imshow('result', image)
-        t5 = time.time()
-        print(t5 - t4)
-        cv2.waitKey(0)
-#+END_SRC
-</p>
+<div class="org-src-container">
+<pre class="src src-python"><span class="linenr"> 1: </span><span style="color: #036A07;">'''</span>
+<span class="linenr"> 2: </span><span style="color: #036A07;">All code is highly based on Ildoo Kim's code (https://github.com/ildoonet/tf-openpose)</span>
+<span class="linenr"> 3: </span><span style="color: #036A07;">and derived from the OpenPose Library (https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/LICENSE)</span>
+<span class="linenr"> 4: </span><span style="color: #036A07;">'''</span>
+<span class="linenr"> 5: </span>
+<span class="linenr"> 6: </span><span style="color: #0000FF;">import</span> tensorflow <span style="color: #0000FF;">as</span> tf
+<span class="linenr"> 7: </span><span style="color: #0000FF;">import</span> cv2
+<span class="linenr"> 8: </span><span style="color: #0000FF;">import</span> numpy <span style="color: #0000FF;">as</span> np
+<span class="linenr"> 9: </span><span style="color: #0000FF;">import</span> argparse
+<span class="linenr">10: </span>
+<span class="linenr">11: </span><span style="color: #0000FF;">from</span> common <span style="color: #0000FF;">import</span> estimate_pose, draw_humans, read_imgfile
+<span class="linenr">12: </span>
+<span class="linenr">13: </span><span style="color: #0000FF;">import</span> time
+<span class="linenr">14: </span>
+<span class="linenr">15: </span><span style="color: #0000FF;">if</span> <span style="color: #006FE0;">__name__</span> == <span style="color: #008000;">'__main__'</span>:
+<span class="linenr">16: </span>    <span style="color: #BA36A5;">parser</span> = argparse.ArgumentParser<span style="color: #707183;">(</span>description=<span style="color: #008000;">'Tensorflow Openpose Inference'</span><span style="color: #707183;">)</span>
+<span class="linenr">17: </span>    parser.add_argument<span style="color: #707183;">(</span><span style="color: #008000;">'--imgpath'</span>, <span style="color: #006FE0;">type</span>=<span style="color: #006FE0;">str</span>, default=<span style="color: #008000;">'./images/wywh.jpg'</span><span style="color: #707183;">)</span>
+<span class="linenr">18: </span>    parser.add_argument<span style="color: #707183;">(</span><span style="color: #008000;">'--input-width'</span>, <span style="color: #006FE0;">type</span>=<span style="color: #006FE0;">int</span>, default=656<span style="color: #707183;">)</span>
+<span class="linenr">19: </span>    parser.add_argument<span style="color: #707183;">(</span><span style="color: #008000;">'--input-height'</span>, <span style="color: #006FE0;">type</span>=<span style="color: #006FE0;">int</span>, default=368<span style="color: #707183;">)</span>
+<span class="linenr">20: </span>    <span style="color: #BA36A5;">args</span> = parser.parse_args<span style="color: #707183;">()</span>
+<span class="linenr">21: </span>
+<span class="linenr">22: </span>    <span style="color: #BA36A5;">t0</span> = time.time<span style="color: #707183;">()</span>
+<span class="linenr">23: </span>
+<span class="linenr">24: </span>    tf.reset_default_graph<span style="color: #707183;">()</span>
+<span class="linenr">25: </span>
+<span class="linenr">26: </span>    <span style="color: #0000FF;">from</span> tensorflow.core.framework <span style="color: #0000FF;">import</span> graph_pb2
+<span class="linenr">27: </span>    <span style="color: #BA36A5;">graph_def</span> = graph_pb2.GraphDef<span style="color: #707183;">()</span>
+<span class="linenr">28: </span>    <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">Download model from https://www.dropbox.com/s/2dw1oz9l9hi9avg/optimized_openpose.pb</span>
+<span class="linenr">29: </span>    <span style="color: #0000FF;">with</span> <span style="color: #006FE0;">open</span><span style="color: #707183;">(</span><span style="color: #008000;">'models/optimized_openpose.pb'</span>, <span style="color: #008000;">'rb'</span><span style="color: #707183;">)</span> <span style="color: #0000FF;">as</span> f:
+<span class="linenr">30: </span>        graph_def.ParseFromString<span style="color: #707183;">(</span>f.read<span style="color: #7388D6;">()</span><span style="color: #707183;">)</span>
+<span class="linenr">31: </span>    tf.import_graph_def<span style="color: #707183;">(</span>graph_def, name=<span style="color: #008000;">''</span><span style="color: #707183;">)</span>
+<span class="linenr">32: </span>
+<span class="linenr">33: </span>    <span style="color: #BA36A5;">t1</span> = time.time<span style="color: #707183;">()</span>
+<span class="linenr">34: </span>    <span style="color: #0000FF;">print</span><span style="color: #707183;">(</span>t1 - t0<span style="color: #707183;">)</span>
+<span class="linenr">35: </span>
+<span class="linenr">36: </span>    <span style="color: #BA36A5;">inputs</span> = tf.get_default_graph<span style="color: #707183;">()</span>.get_tensor_by_name<span style="color: #707183;">(</span><span style="color: #008000;">'inputs:0'</span><span style="color: #707183;">)</span>
+<span class="linenr">37: </span>    <span style="color: #BA36A5;">heatmaps_tensor</span> = tf.get_default_graph<span style="color: #707183;">()</span>.get_tensor_by_name<span style="color: #707183;">(</span><span style="color: #008000;">'Mconv7_stage6_L2/BiasAdd:0'</span><span style="color: #707183;">)</span>
+<span class="linenr">38: </span>    <span style="color: #BA36A5;">pafs_tensor</span> = tf.get_default_graph<span style="color: #707183;">()</span>.get_tensor_by_name<span style="color: #707183;">(</span><span style="color: #008000;">'Mconv7_stage6_L1/BiasAdd:0'</span><span style="color: #707183;">)</span>
+<span class="linenr">39: </span>
+<span class="linenr">40: </span>    <span style="color: #BA36A5;">t2</span> = time.time<span style="color: #707183;">()</span>
+<span class="linenr">41: </span>    <span style="color: #0000FF;">print</span><span style="color: #707183;">(</span>t2 - t1<span style="color: #707183;">)</span>
+<span class="linenr">42: </span>
+<span class="linenr">43: </span>    <span style="color: #BA36A5;">image</span> = read_imgfile<span style="color: #707183;">(</span>args.imgpath, args.input_width, args.input_height<span style="color: #707183;">)</span>
+<span class="linenr">44: </span>
+<span class="linenr">45: </span>    <span style="color: #BA36A5;">t3</span> = time.time<span style="color: #707183;">()</span>
+<span class="linenr">46: </span>    <span style="color: #0000FF;">print</span><span style="color: #707183;">(</span>t3 - t2<span style="color: #707183;">)</span>
+<span class="linenr">47: </span>
+<span class="linenr">48: </span>    <span style="color: #0000FF;">with</span> tf.Session<span style="color: #707183;">()</span> <span style="color: #0000FF;">as</span> sess:
+<span class="linenr">49: </span>        <span style="color: #BA36A5;">heatMat</span>, <span style="color: #BA36A5;">pafMat</span> = sess.run<span style="color: #707183;">(</span><span style="color: #7388D6;">[</span>heatmaps_tensor, pafs_tensor<span style="color: #7388D6;">]</span>, feed_dict=<span style="color: #7388D6;">{</span>
+<span class="linenr">50: </span>            inputs: image
+<span class="linenr">51: </span>        <span style="color: #7388D6;">}</span><span style="color: #707183;">)</span>
+<span class="linenr">52: </span>
+<span class="linenr">53: </span>        <span style="color: #BA36A5;">t4</span> = time.time<span style="color: #707183;">()</span>
+<span class="linenr">54: </span>        <span style="color: #0000FF;">print</span><span style="color: #707183;">(</span>t4 - t3<span style="color: #707183;">)</span>
+<span class="linenr">55: </span>
+<span class="linenr">56: </span>        <span style="color: #BA36A5;">heatMat</span>, <span style="color: #BA36A5;">pafMat</span> = heatMat<span style="color: #707183;">[</span>0<span style="color: #707183;">]</span>, pafMat<span style="color: #707183;">[</span>0<span style="color: #707183;">]</span>
+<span class="linenr">57: </span>
+<span class="linenr">58: </span>        <span style="color: #BA36A5;">humans</span> = estimate_pose<span style="color: #707183;">(</span>heatMat, pafMat<span style="color: #707183;">)</span>
+<span class="linenr">59: </span>
+<span class="linenr">60: </span>        <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">display</span>
+<span class="linenr">61: </span>        <span style="color: #BA36A5;">image</span> = cv2.imread<span style="color: #707183;">(</span>args.imgpath<span style="color: #707183;">)</span>
+<span class="linenr">62: </span>        <span style="color: #BA36A5;">image_h</span>, <span style="color: #BA36A5;">image_w</span> = image.shape<span style="color: #707183;">[</span>:2<span style="color: #707183;">]</span>
+<span class="linenr">63: </span>        <span style="color: #BA36A5;">image</span> = draw_humans<span style="color: #707183;">(</span>image, humans<span style="color: #707183;">)</span>
+<span class="linenr">64: </span>
+<span class="linenr">65: </span>        <span style="color: #BA36A5;">scale</span> = 480.0 / image_h
+<span class="linenr">66: </span>        <span style="color: #BA36A5;">newh</span>, <span style="color: #BA36A5;">neww</span> = 480, <span style="color: #006FE0;">int</span><span style="color: #707183;">(</span>scale * image_w + 0.5<span style="color: #707183;">)</span>
+<span class="linenr">67: </span>
+<span class="linenr">68: </span>        <span style="color: #BA36A5;">image</span> = cv2.resize<span style="color: #707183;">(</span>image, <span style="color: #7388D6;">(</span>neww, newh<span style="color: #7388D6;">)</span>, interpolation=cv2.INTER_AREA<span style="color: #707183;">)</span>
+<span class="linenr">69: </span>
+<span class="linenr">70: </span>        cv2.imshow<span style="color: #707183;">(</span><span style="color: #008000;">'result'</span>, image<span style="color: #707183;">)</span>
+<span class="linenr">71: </span>        <span style="color: #BA36A5;">t5</span> = time.time<span style="color: #707183;">()</span>
+<span class="linenr">72: </span>        <span style="color: #0000FF;">print</span><span style="color: #707183;">(</span>t5 - t4<span style="color: #707183;">)</span>
+<span class="linenr">73: </span>        cv2.waitKey<span style="color: #707183;">(</span>0<span style="color: #707183;">)</span>
+</pre>
+</div>
 </div>
 </li>
-<li><a id="org38ef132"></a>common.py<br />
+<li><a id="org8452a3d"></a>common.py<br />
 <div class="outline-text-6" id="text-3-3-1-3-2">
-<p>
-0+BEGIN_SRC python -n
-  '''
-  All code is highly based on Ildoo Kim's code (<a href="https://github.com/ildoonet/tf-openpose">https://github.com/ildoonet/tf-openpose</a>)
-  and derived from the OpenPose Library (<a href="https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/LICENSE">https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/LICENSE</a>)
-  '''
-</p>
-
-<p>
-from collections import defaultdict
-from enum import Enum
-import math
-</p>
-
-<p>
-import numpy as np
-import itertools
-import cv2
-from scipy.ndimage.filters import maximum_filter
-</p>
-
-
-<p>
-class CocoPart(Enum):
-    Nose = 0
-    Neck = 1
-    RShoulder = 2
-    RElbow = 3
-    RWrist = 4
-    LShoulder = 5
-    LElbow = 6
-    LWrist = 7
-    RHip = 8
-    RKnee = 9
-    RAnkle = 10
-    LHip = 11
-    LKnee = 12
-    LAnkle = 13
-    REye = 14
-    LEye = 15
-    REar = 16
-    LEar = 17
-    Background = 18
-</p>
-
-<p>
-CocoPairs = [
-    (1, 2), (1, 5), (2, 3), (3, 4), (5, 6), (6, 7), (1, 8), (8, 9), (9, 10), (1, 11),
-    (11, 12), (12, 13), (1, 0), (0, 14), (14, 16), (0, 15), (15, 17), (2, 16), (5, 17)
-]   # = 19
-CocoPairsRender = CocoPairs[:-2]
-CocoPairsNetwork = [
-    (12, 13), (20, 21), (14, 15), (16, 17), (22, 23), (24, 25), (0, 1), (2, 3), (4, 5),
-    (6, 7), (8, 9), (10, 11), (28, 29), (30, 31), (34, 35), (32, 33), (36, 37), (18, 19), (26, 27)
- ]  # = 19
-</p>
-
-<p>
-CocoColors = [[255, 0, 0], [255, 85, 0], [255, 170, 0], [255, 255, 0], [170, 255, 0], [85, 255, 0], [0, 255, 0],
-              [0, 255, 85], [0, 255, 170], [0, 255, 255], [0, 170, 255], [0, 85, 255], [0, 0, 255], [85, 0, 255],
-              [170, 0, 255], [255, 0, 255], [255, 0, 170], [255, 0, 85]]
-</p>
-
-
-<p>
-NMS_Threshold = 0.1
-InterMinAbove_Threshold = 6
-Inter_Threashold = 0.1
-Min_Subset_Cnt = 4
-Min_Subset_Score = 0.8
-Max_Human = 96
-</p>
-
-
-<p>
-def human_conns_to_human_parts(human_conns, heatMat):
-    human_parts = defaultdict(lambda: None)
-    for conn in human_conns:
-        human_parts[conn['partIdx'][0]] = (
-            conn['partIdx'][0], # part index
-            (conn['coord_p1'][0] / heatMat.shape[2], conn['coord_p1'][1] / heatMat.shape[1]), # relative coordinates
-            heatMat[conn['partIdx'][0], conn['coord_p1'][1], conn['coord_p1'][0]] # score
-            )
-        human_parts[conn['partIdx'][1]] = (
-            conn['partIdx'][1],
-            (conn['coord_p2'][0] / heatMat.shape[2], conn['coord_p2'][1] / heatMat.shape[1]),
-            heatMat[conn['partIdx'][1], conn['coord_p2'][1], conn['coord_p2'][0]]
-            )
-    return human_parts
-</p>
-
-
-<p>
-def non_max_suppression(heatmap, window_size=3, threshold=NMS_Threshold):
-    heatmap[heatmap &lt; threshold] = 0 # set low values to 0
-    part_candidates = heatmap*(heatmap == maximum_filter(heatmap, footprint=np.ones((window_size, window_size))))
-    return part_candidates
-</p>
-
-
-<p>
-def estimate_pose(heatMat, pafMat):
-    if heatMat.shape[2] == 19:
-</p>
-
-<p>
-    heatMat = np.rollaxis(heatMat, 2, 0)
-if pafMat.shape[2] == 38:
-</p>
-
-<p>
-pafMat = np.rollaxis(pafMat, 2, 0)
-</p>
-
-<p>
-heatMat = heatMat - heatMat.min(axis=1).min(axis=1).reshape(19, 1, 1)
-heatMat = heatMat - heatMat.min(axis=2).reshape(19, heatMat.shape[1], 1)
-</p>
-
-<p>
-_NMS_Threshold = max(np.average(heatMat) * 4.0, NMS_Threshold)
-_NMS_Threshold = min(_NMS_Threshold, 0.3)
-</p>
-
-<p>
-coords = [] # for each part index, it stores coordinates of candidates
-for heatmap in heatMat[:-1]: # remove background
-    part_candidates = non_max_suppression(heatmap, 5, _NMS_Threshold)
-    coords.append(np.where(part_candidates &gt;= _NMS_Threshold))
-</p>
-
-<p>
-connection_all = [] # all connections detected. no information about what humans they belong to
-for (idx1, idx2), (paf_x_idx, paf_y_idx) in zip(CocoPairs, CocoPairsNetwork):
-    connection = estimate_pose_pair(coords, idx1, idx2, pafMat[paf_x_idx], pafMat[paf_y_idx])
-    connection_all.extend(connection)
-</p>
-
-<p>
-conns_by_human = dict()
-for idx, c in enumerate(connection_all):
-    conns_by_human['human_%d' % idx] = [c] # at first, all connections belong to different humans
-</p>
-
-<p>
-no_merge_cache = defaultdict(list)
-empty_set = set()
-while True:
-    is_merged = False
-    for h1, h2 in itertools.combinations(conns_by_human.keys(), 2):
-        if h1 == h2:
-            continue
-        if h2 in no_merge_cache[h1]:
-            continue
-        for c1, c2 in itertools.product(conns_by_human[h1], conns_by_human[h2]):
-</p>
-
-<p>
-if set(c1['uPartIdx']) &amp; set(c2['uPartIdx']) != empty_set:
-    is_merged = True
-</p>
-
-<p>
-        conns_by_human[h1].extend(conns_by_human[h2])
-        conns_by_human.pop(h2) # delete human2
-        break
-if is_merged:
-    no_merge_cache.pop(h1, None)
-    break
-else:
-    no_merge_cache[h1].append(h2)
-</p>
-
-<p>
-if not is_merged: # if no more mergings are possible, then break
-    break
-</p>
-
-<p>
-conns_by_human = {h: conns for (h, conns) in conns_by_human.items() if len(conns) &gt;= Min_Subset_Cnt}
-</p>
-
-<p>
-conns_by_human = {h: conns for (h, conns) in conns_by_human.items() if max([conn['score'] for conn in conns]) &gt;= Min_Subset_Score}
-</p>
-
-<p>
-humans = [human_conns_to_human_parts(human_conns, heatMat) for human_conns in conns_by_human.values()]
-return humans
-</p>
-
-
-<p>
-def estimate_pose_pair(coords, partIdx1, partIdx2, pafMatX, pafMatY):
-    connection_temp = [] # all possible connections
-    peak_coord1, peak_coord2 = coords[partIdx1], coords[partIdx2]
-</p>
-
-<p>
-for idx1, (y1, x1) in enumerate(zip(peak_coord1[0], peak_coord1[1])):
-    for idx2, (y2, x2) in enumerate(zip(peak_coord2[0], peak_coord2[1])):
-        score, count = get_score(x1, y1, x2, y2, pafMatX, pafMatY)
-        if (partIdx1, partIdx2) in [(2, 3), (3, 4), (5, 6), (6, 7)]: # arms
-            if count &lt; InterMinAbove_Threshold // 2 or score &lt;= 0.0:
-                continue
-        elif count &lt; InterMinAbove_Threshold or score &lt;= 0.0:
-            continue
-        connection_temp.append({
-            'score': score,
-            'coord_p1': (x1, y1),
-            'coord_p2': (x2, y2),
-            'idx': (idx1, idx2), # connection candidate identifier
-            'partIdx': (partIdx1, partIdx2),
-            'uPartIdx': ('{}-{}-{}'.format(x1, y1, partIdx1), '{}-{}-{}'.format(x2, y2, partIdx2))
-        })
-</p>
-
-<p>
-connection = []
-used_idx1, used_idx2 = [], []
-</p>
-
-<p>
-for conn_candidate in sorted(connection_temp, key=lambda x: x['score'], reverse=True):
-</p>
-
-<p>
-if conn_candidate['idx'][0] in used_idx1 or conn_candidate['idx'][1] in used_idx2:
-    continue
-connection.append(conn_candidate)
-used_idx1.append(conn_candidate['idx'][0])
-used_idx2.append(conn_candidate['idx'][1])
-</p>
-
-<p>
-return connection
-</p>
-
-
-<p>
-def get_score(x1, y1, x2, y2, pafMatX, pafMatY):
-    num_inter = 10
-    dx, dy = x2 - x1, y2 - y1
-    normVec = math.sqrt(dx <b>* 2 + dy *</b> 2)
-</p>
-
-<p>
-if normVec &lt; 1e-4:
-    return 0.0, 0
-</p>
-
-<p>
-vx, vy = dx / normVec, dy / normVec
-</p>
-
-<p>
-xs = np.arange(x1, x2, dx / num_inter) if x1 != x2 else np.full((num_inter, ), x1)
-ys = np.arange(y1, y2, dy / num_inter) if y1 != y2 else np.full((num_inter, ), y1)
-xs = (xs + 0.5).astype(np.int8)
-ys = (ys + 0.5).astype(np.int8)
-</p>
-
-<p>
-pafXs = np.zeros(num_inter)
-pafYs = np.zeros(num_inter)
-for idx, (mx, my) in enumerate(zip(xs, ys)):
-    pafXs[idx] = pafMatX[my][mx]
-    pafYs[idx] = pafMatY[my][mx]
-</p>
-
-<p>
-local_scores = pafXs * vx + pafYs * vy
-thidxs = local_scores &gt; Inter_Threashold
-</p>
-
-<p>
-return sum(local_scores * thidxs), sum(thidxs)
-</p>
-
-
-<p>
-def read_imgfile(path, width, height):
-    img = cv2.imread(path)
-    val_img = preprocess(img, width, height)
-    return val_img
-</p>
-
-
-<p>
-def preprocess(img, width, height):
-    val_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) # cv2 reads in BGR format
-    val_img = cv2.resize(val_img, (width, height)) # each net accept only a certain size
-    val_img = val_img.reshape([1, height, width, 3])
-    val_img = val_img.astype(float)
-    val_img = val_img * (2.0 / 255.0) - 1.0 # image range from -1 to +1
-    return val_img
-</p>
-
-
-<p>
-def draw_humans(img, human_list):
-    img_copied = np.copy(img)
-    image_h, image_w = img_copied.shape[:2]
-    centers = {}
-    for human in human_list:
-        part_idxs = human.keys()
-</p>
-
-<p>
-for i in range(CocoPart.Background.value):
-    if i not in part_idxs:
-        continue
-    part_coord = human[i][1]
-    center = (int(part_coord[0] * image_w + 0.5), int(part_coord[1] * image_h + 0.5))
-    centers[i] = center
-    cv2.circle(img_copied, center, 3, CocoColors[i], thickness=3, lineType=8, shift=0)
-</p>
-
-<p>
-for pair_order, pair in enumerate(CocoPairsRender):
-    if pair[0] not in part_idxs or pair[1] not in part_idxs:
-        continue
-</p>
-
-<p>
-img_copied = cv2.line(img_copied, centers[pair[0]], centers[pair[1]], CocoColors[pair_order], 3)
-</p>
-
-<p>
-      return img_copied
-#+END_SRC
-</p>
+<div class="org-src-container">
+<pre class="src src-python"><span class="linenr">  1: </span><span style="color: #036A07;">'''</span>
+<span class="linenr">  2: </span><span style="color: #036A07;">All code is highly based on Ildoo Kim's code (https://github.com/ildoonet/tf-openpose)</span>
+<span class="linenr">  3: </span><span style="color: #036A07;">and derived from the OpenPose Library (https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/LICENSE)</span>
+<span class="linenr">  4: </span><span style="color: #036A07;">'''</span>
+<span class="linenr">  5: </span>
+<span class="linenr">  6: </span><span style="color: #0000FF;">from</span> collections <span style="color: #0000FF;">import</span> defaultdict
+<span class="linenr">  7: </span><span style="color: #0000FF;">from</span> enum <span style="color: #0000FF;">import</span> Enum
+<span class="linenr">  8: </span><span style="color: #0000FF;">import</span> math
+<span class="linenr">  9: </span>
+<span class="linenr"> 10: </span><span style="color: #0000FF;">import</span> numpy <span style="color: #0000FF;">as</span> np
+<span class="linenr"> 11: </span><span style="color: #0000FF;">import</span> itertools
+<span class="linenr"> 12: </span><span style="color: #0000FF;">import</span> cv2
+<span class="linenr"> 13: </span><span style="color: #0000FF;">from</span> scipy.ndimage.filters <span style="color: #0000FF;">import</span> maximum_filter
+<span class="linenr"> 14: </span>
+<span class="linenr"> 15: </span>
+<span class="linenr"> 16: </span><span style="color: #0000FF;">class</span> <span style="color: #6434A3;">CocoPart</span><span style="color: #707183;">(</span>Enum<span style="color: #707183;">)</span>:
+<span class="linenr"> 17: </span>    <span style="color: #BA36A5;">Nose</span> = 0
+<span class="linenr"> 18: </span>    <span style="color: #BA36A5;">Neck</span> = 1
+<span class="linenr"> 19: </span>    <span style="color: #BA36A5;">RShoulder</span> = 2
+<span class="linenr"> 20: </span>    <span style="color: #BA36A5;">RElbow</span> = 3
+<span class="linenr"> 21: </span>    <span style="color: #BA36A5;">RWrist</span> = 4
+<span class="linenr"> 22: </span>    <span style="color: #BA36A5;">LShoulder</span> = 5
+<span class="linenr"> 23: </span>    <span style="color: #BA36A5;">LElbow</span> = 6
+<span class="linenr"> 24: </span>    <span style="color: #BA36A5;">LWrist</span> = 7
+<span class="linenr"> 25: </span>    <span style="color: #BA36A5;">RHip</span> = 8
+<span class="linenr"> 26: </span>    <span style="color: #BA36A5;">RKnee</span> = 9
+<span class="linenr"> 27: </span>    <span style="color: #BA36A5;">RAnkle</span> = 10
+<span class="linenr"> 28: </span>    <span style="color: #BA36A5;">LHip</span> = 11
+<span class="linenr"> 29: </span>    <span style="color: #BA36A5;">LKnee</span> = 12
+<span class="linenr"> 30: </span>    <span style="color: #BA36A5;">LAnkle</span> = 13
+<span class="linenr"> 31: </span>    <span style="color: #BA36A5;">REye</span> = 14
+<span class="linenr"> 32: </span>    <span style="color: #BA36A5;">LEye</span> = 15
+<span class="linenr"> 33: </span>    <span style="color: #BA36A5;">REar</span> = 16
+<span class="linenr"> 34: </span>    <span style="color: #BA36A5;">LEar</span> = 17
+<span class="linenr"> 35: </span>    <span style="color: #BA36A5;">Background</span> = 18
+<span class="linenr"> 36: </span>
+<span class="linenr"> 37: </span><span style="color: #BA36A5;">CocoPairs</span> = <span style="color: #707183;">[</span>
+<span class="linenr"> 38: </span>    <span style="color: #7388D6;">(</span>1, 2<span style="color: #7388D6;">)</span>, <span style="color: #7388D6;">(</span>1, 5<span style="color: #7388D6;">)</span>, <span style="color: #7388D6;">(</span>2, 3<span style="color: #7388D6;">)</span>, <span style="color: #7388D6;">(</span>3, 4<span style="color: #7388D6;">)</span>, <span style="color: #7388D6;">(</span>5, 6<span style="color: #7388D6;">)</span>, <span style="color: #7388D6;">(</span>6, 7<span style="color: #7388D6;">)</span>, <span style="color: #7388D6;">(</span>1, 8<span style="color: #7388D6;">)</span>, <span style="color: #7388D6;">(</span>8, 9<span style="color: #7388D6;">)</span>, <span style="color: #7388D6;">(</span>9, 10<span style="color: #7388D6;">)</span>, <span style="color: #7388D6;">(</span>1, 11<span style="color: #7388D6;">)</span>,
+<span class="linenr"> 39: </span>    <span style="color: #7388D6;">(</span>11, 12<span style="color: #7388D6;">)</span>, <span style="color: #7388D6;">(</span>12, 13<span style="color: #7388D6;">)</span>, <span style="color: #7388D6;">(</span>1, 0<span style="color: #7388D6;">)</span>, <span style="color: #7388D6;">(</span>0, 14<span style="color: #7388D6;">)</span>, <span style="color: #7388D6;">(</span>14, 16<span style="color: #7388D6;">)</span>, <span style="color: #7388D6;">(</span>0, 15<span style="color: #7388D6;">)</span>, <span style="color: #7388D6;">(</span>15, 17<span style="color: #7388D6;">)</span>, <span style="color: #7388D6;">(</span>2, 16<span style="color: #7388D6;">)</span>, <span style="color: #7388D6;">(</span>5, 17<span style="color: #7388D6;">)</span>
+<span class="linenr"> 40: </span><span style="color: #707183;">]</span>   <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">= 19</span>
+<span class="linenr"> 41: </span><span style="color: #BA36A5;">CocoPairsRender</span> = CocoPairs<span style="color: #707183;">[</span>:-2<span style="color: #707183;">]</span>
+<span class="linenr"> 42: </span><span style="color: #BA36A5;">CocoPairsNetwork</span> = <span style="color: #707183;">[</span>
+<span class="linenr"> 43: </span>    <span style="color: #7388D6;">(</span>12, 13<span style="color: #7388D6;">)</span>, <span style="color: #7388D6;">(</span>20, 21<span style="color: #7388D6;">)</span>, <span style="color: #7388D6;">(</span>14, 15<span style="color: #7388D6;">)</span>, <span style="color: #7388D6;">(</span>16, 17<span style="color: #7388D6;">)</span>, <span style="color: #7388D6;">(</span>22, 23<span style="color: #7388D6;">)</span>, <span style="color: #7388D6;">(</span>24, 25<span style="color: #7388D6;">)</span>, <span style="color: #7388D6;">(</span>0, 1<span style="color: #7388D6;">)</span>, <span style="color: #7388D6;">(</span>2, 3<span style="color: #7388D6;">)</span>, <span style="color: #7388D6;">(</span>4, 5<span style="color: #7388D6;">)</span>,
+<span class="linenr"> 44: </span>    <span style="color: #7388D6;">(</span>6, 7<span style="color: #7388D6;">)</span>, <span style="color: #7388D6;">(</span>8, 9<span style="color: #7388D6;">)</span>, <span style="color: #7388D6;">(</span>10, 11<span style="color: #7388D6;">)</span>, <span style="color: #7388D6;">(</span>28, 29<span style="color: #7388D6;">)</span>, <span style="color: #7388D6;">(</span>30, 31<span style="color: #7388D6;">)</span>, <span style="color: #7388D6;">(</span>34, 35<span style="color: #7388D6;">)</span>, <span style="color: #7388D6;">(</span>32, 33<span style="color: #7388D6;">)</span>, <span style="color: #7388D6;">(</span>36, 37<span style="color: #7388D6;">)</span>, <span style="color: #7388D6;">(</span>18, 19<span style="color: #7388D6;">)</span>, <span style="color: #7388D6;">(</span>26, 27<span style="color: #7388D6;">)</span>
+<span class="linenr"> 45: </span> <span style="color: #707183;">]</span>  <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">= 19</span>
+<span class="linenr"> 46: </span>
+<span class="linenr"> 47: </span><span style="color: #BA36A5;">CocoColors</span> = <span style="color: #707183;">[</span><span style="color: #7388D6;">[</span>255, 0, 0<span style="color: #7388D6;">]</span>, <span style="color: #7388D6;">[</span>255, 85, 0<span style="color: #7388D6;">]</span>, <span style="color: #7388D6;">[</span>255, 170, 0<span style="color: #7388D6;">]</span>, <span style="color: #7388D6;">[</span>255, 255, 0<span style="color: #7388D6;">]</span>, <span style="color: #7388D6;">[</span>170, 255, 0<span style="color: #7388D6;">]</span>, <span style="color: #7388D6;">[</span>85, 255, 0<span style="color: #7388D6;">]</span>, <span style="color: #7388D6;">[</span>0, 255, 0<span style="color: #7388D6;">]</span>,
+<span class="linenr"> 48: </span>              <span style="color: #7388D6;">[</span>0, 255, 85<span style="color: #7388D6;">]</span>, <span style="color: #7388D6;">[</span>0, 255, 170<span style="color: #7388D6;">]</span>, <span style="color: #7388D6;">[</span>0, 255, 255<span style="color: #7388D6;">]</span>, <span style="color: #7388D6;">[</span>0, 170, 255<span style="color: #7388D6;">]</span>, <span style="color: #7388D6;">[</span>0, 85, 255<span style="color: #7388D6;">]</span>, <span style="color: #7388D6;">[</span>0, 0, 255<span style="color: #7388D6;">]</span>, <span style="color: #7388D6;">[</span>85, 0, 255<span style="color: #7388D6;">]</span>,
+<span class="linenr"> 49: </span>              <span style="color: #7388D6;">[</span>170, 0, 255<span style="color: #7388D6;">]</span>, <span style="color: #7388D6;">[</span>255, 0, 255<span style="color: #7388D6;">]</span>, <span style="color: #7388D6;">[</span>255, 0, 170<span style="color: #7388D6;">]</span>, <span style="color: #7388D6;">[</span>255, 0, 85<span style="color: #7388D6;">]</span><span style="color: #707183;">]</span>
+<span class="linenr"> 50: </span>
+<span class="linenr"> 51: </span>
+<span class="linenr"> 52: </span><span style="color: #BA36A5;">NMS_Threshold</span> = 0.1
+<span class="linenr"> 53: </span><span style="color: #BA36A5;">InterMinAbove_Threshold</span> = 6
+<span class="linenr"> 54: </span><span style="color: #BA36A5;">Inter_Threashold</span> = 0.1
+<span class="linenr"> 55: </span><span style="color: #BA36A5;">Min_Subset_Cnt</span> = 4
+<span class="linenr"> 56: </span><span style="color: #BA36A5;">Min_Subset_Score</span> = 0.8
+<span class="linenr"> 57: </span><span style="color: #BA36A5;">Max_Human</span> = 96
+<span class="linenr"> 58: </span>
+<span class="linenr"> 59: </span>
+<span class="linenr"> 60: </span><span style="color: #0000FF;">def</span> <span style="color: #006699;">human_conns_to_human_parts</span><span style="color: #707183;">(</span>human_conns, heatMat<span style="color: #707183;">)</span>:
+<span class="linenr"> 61: </span>    <span style="color: #BA36A5;">human_parts</span> = defaultdict<span style="color: #707183;">(</span><span style="color: #0000FF;">lambda</span>: <span style="color: #D0372D;">None</span><span style="color: #707183;">)</span>
+<span class="linenr"> 62: </span>    <span style="color: #0000FF;">for</span> conn <span style="color: #0000FF;">in</span> human_conns:
+<span class="linenr"> 63: </span>        human_parts<span style="color: #707183;">[</span>conn<span style="color: #7388D6;">[</span><span style="color: #008000;">'partIdx'</span><span style="color: #7388D6;">][</span>0<span style="color: #7388D6;">]</span><span style="color: #707183;">]</span> = <span style="color: #707183;">(</span>
+<span class="linenr"> 64: </span>            conn<span style="color: #7388D6;">[</span><span style="color: #008000;">'partIdx'</span><span style="color: #7388D6;">][</span>0<span style="color: #7388D6;">]</span>, <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">part index</span>
+<span class="linenr"> 65: </span>            <span style="color: #7388D6;">(</span>conn<span style="color: #909183;">[</span><span style="color: #008000;">'coord_p1'</span><span style="color: #909183;">][</span>0<span style="color: #909183;">]</span> / heatMat.shape<span style="color: #909183;">[</span>2<span style="color: #909183;">]</span>, conn<span style="color: #909183;">[</span><span style="color: #008000;">'coord_p1'</span><span style="color: #909183;">][</span>1<span style="color: #909183;">]</span> / heatMat.shape<span style="color: #909183;">[</span>1<span style="color: #909183;">]</span><span style="color: #7388D6;">)</span>, <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">relative coordinates</span>
+<span class="linenr"> 66: </span>            heatMat<span style="color: #7388D6;">[</span>conn<span style="color: #909183;">[</span><span style="color: #008000;">'partIdx'</span><span style="color: #909183;">][</span>0<span style="color: #909183;">]</span>, conn<span style="color: #909183;">[</span><span style="color: #008000;">'coord_p1'</span><span style="color: #909183;">][</span>1<span style="color: #909183;">]</span>, conn<span style="color: #909183;">[</span><span style="color: #008000;">'coord_p1'</span><span style="color: #909183;">][</span>0<span style="color: #909183;">]</span><span style="color: #7388D6;">]</span> <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">score</span>
+<span class="linenr"> 67: </span>            <span style="color: #707183;">)</span>
+<span class="linenr"> 68: </span>        human_parts<span style="color: #707183;">[</span>conn<span style="color: #7388D6;">[</span><span style="color: #008000;">'partIdx'</span><span style="color: #7388D6;">][</span>1<span style="color: #7388D6;">]</span><span style="color: #707183;">]</span> = <span style="color: #707183;">(</span>
+<span class="linenr"> 69: </span>            conn<span style="color: #7388D6;">[</span><span style="color: #008000;">'partIdx'</span><span style="color: #7388D6;">][</span>1<span style="color: #7388D6;">]</span>,
+<span class="linenr"> 70: </span>            <span style="color: #7388D6;">(</span>conn<span style="color: #909183;">[</span><span style="color: #008000;">'coord_p2'</span><span style="color: #909183;">][</span>0<span style="color: #909183;">]</span> / heatMat.shape<span style="color: #909183;">[</span>2<span style="color: #909183;">]</span>, conn<span style="color: #909183;">[</span><span style="color: #008000;">'coord_p2'</span><span style="color: #909183;">][</span>1<span style="color: #909183;">]</span> / heatMat.shape<span style="color: #909183;">[</span>1<span style="color: #909183;">]</span><span style="color: #7388D6;">)</span>,
+<span class="linenr"> 71: </span>            heatMat<span style="color: #7388D6;">[</span>conn<span style="color: #909183;">[</span><span style="color: #008000;">'partIdx'</span><span style="color: #909183;">][</span>1<span style="color: #909183;">]</span>, conn<span style="color: #909183;">[</span><span style="color: #008000;">'coord_p2'</span><span style="color: #909183;">][</span>1<span style="color: #909183;">]</span>, conn<span style="color: #909183;">[</span><span style="color: #008000;">'coord_p2'</span><span style="color: #909183;">][</span>0<span style="color: #909183;">]</span><span style="color: #7388D6;">]</span>
+<span class="linenr"> 72: </span>            <span style="color: #707183;">)</span>
+<span class="linenr"> 73: </span>    <span style="color: #0000FF;">return</span> human_parts
+<span class="linenr"> 74: </span>
+<span class="linenr"> 75: </span>
+<span class="linenr"> 76: </span><span style="color: #0000FF;">def</span> <span style="color: #006699;">non_max_suppression</span><span style="color: #707183;">(</span>heatmap, window_size=3, threshold=NMS_Threshold<span style="color: #707183;">)</span>:
+<span class="linenr"> 77: </span>    <span style="color: #BA36A5;">heatmap</span><span style="color: #707183;">[</span>heatmap &lt; threshold<span style="color: #707183;">]</span> = 0 <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">set low values to 0</span>
+<span class="linenr"> 78: </span>    <span style="color: #BA36A5;">part_candidates</span> = heatmap*<span style="color: #707183;">(</span>heatmap == maximum_filter<span style="color: #7388D6;">(</span>heatmap, footprint=np.ones<span style="color: #909183;">(</span><span style="color: #709870;">(</span>window_size, window_size<span style="color: #709870;">)</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr"> 79: </span>    <span style="color: #0000FF;">return</span> part_candidates
+<span class="linenr"> 80: </span>
+<span class="linenr"> 81: </span>
+<span class="linenr"> 82: </span><span style="color: #0000FF;">def</span> <span style="color: #006699;">estimate_pose</span><span style="color: #707183;">(</span>heatMat, pafMat<span style="color: #707183;">)</span>:
+<span class="linenr"> 83: </span>    <span style="color: #0000FF;">if</span> heatMat.shape<span style="color: #707183;">[</span>2<span style="color: #707183;">]</span> == 19:
+<span class="linenr"> 84: </span>        <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">transform from [height, width, n_parts] to [n_parts, height, width]</span>
+<span class="linenr"> 85: </span>        <span style="color: #BA36A5;">heatMat</span> = np.rollaxis<span style="color: #707183;">(</span>heatMat, 2, 0<span style="color: #707183;">)</span>
+<span class="linenr"> 86: </span>    <span style="color: #0000FF;">if</span> pafMat.shape<span style="color: #707183;">[</span>2<span style="color: #707183;">]</span> == 38:
+<span class="linenr"> 87: </span>        <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">transform from [height, width, 2*n_pairs] to [2*n_pairs, height, width]</span>
+<span class="linenr"> 88: </span>        <span style="color: #BA36A5;">pafMat</span> = np.rollaxis<span style="color: #707183;">(</span>pafMat, 2, 0<span style="color: #707183;">)</span>
+<span class="linenr"> 89: </span>
+<span class="linenr"> 90: </span>    <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">reliability issue.</span>
+<span class="linenr"> 91: </span>    <span style="color: #BA36A5;">heatMat</span> = heatMat - heatMat.<span style="color: #006FE0;">min</span><span style="color: #707183;">(</span>axis=1<span style="color: #707183;">)</span>.<span style="color: #006FE0;">min</span><span style="color: #707183;">(</span>axis=1<span style="color: #707183;">)</span>.reshape<span style="color: #707183;">(</span>19, 1, 1<span style="color: #707183;">)</span>
+<span class="linenr"> 92: </span>    <span style="color: #BA36A5;">heatMat</span> = heatMat - heatMat.<span style="color: #006FE0;">min</span><span style="color: #707183;">(</span>axis=2<span style="color: #707183;">)</span>.reshape<span style="color: #707183;">(</span>19, heatMat.shape<span style="color: #7388D6;">[</span>1<span style="color: #7388D6;">]</span>, 1<span style="color: #707183;">)</span>
+<span class="linenr"> 93: </span>
+<span class="linenr"> 94: </span>    <span style="color: #BA36A5;">_NMS_Threshold</span> = <span style="color: #006FE0;">max</span><span style="color: #707183;">(</span>np.average<span style="color: #7388D6;">(</span>heatMat<span style="color: #7388D6;">)</span> * 4.0, NMS_Threshold<span style="color: #707183;">)</span>
+<span class="linenr"> 95: </span>    <span style="color: #BA36A5;">_NMS_Threshold</span> = <span style="color: #006FE0;">min</span><span style="color: #707183;">(</span>_NMS_Threshold, 0.3<span style="color: #707183;">)</span>
+<span class="linenr"> 96: </span>
+<span class="linenr"> 97: </span>    <span style="color: #BA36A5;">coords</span> = <span style="color: #707183;">[]</span> <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">for each part index, it stores coordinates of candidates</span>
+<span class="linenr"> 98: </span>    <span style="color: #0000FF;">for</span> heatmap <span style="color: #0000FF;">in</span> heatMat<span style="color: #707183;">[</span>:-1<span style="color: #707183;">]</span>: <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">remove background</span>
+<span class="linenr"> 99: </span>        <span style="color: #BA36A5;">part_candidates</span> = non_max_suppression<span style="color: #707183;">(</span>heatmap, 5, _NMS_Threshold<span style="color: #707183;">)</span>
+<span class="linenr">100: </span>        coords.append<span style="color: #707183;">(</span>np.where<span style="color: #7388D6;">(</span>part_candidates &gt;= _NMS_Threshold<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr">101: </span>
+<span class="linenr">102: </span>    <span style="color: #BA36A5;">connection_all</span> = <span style="color: #707183;">[]</span> <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">all connections detected. no information about what humans they belong to</span>
+<span class="linenr">103: </span>    <span style="color: #0000FF;">for</span> <span style="color: #707183;">(</span>idx1, idx2<span style="color: #707183;">)</span>, <span style="color: #707183;">(</span>paf_x_idx, paf_y_idx<span style="color: #707183;">)</span> <span style="color: #0000FF;">in</span> <span style="color: #006FE0;">zip</span><span style="color: #707183;">(</span>CocoPairs, CocoPairsNetwork<span style="color: #707183;">)</span>:
+<span class="linenr">104: </span>        <span style="color: #BA36A5;">connection</span> = estimate_pose_pair<span style="color: #707183;">(</span>coords, idx1, idx2, pafMat<span style="color: #7388D6;">[</span>paf_x_idx<span style="color: #7388D6;">]</span>, pafMat<span style="color: #7388D6;">[</span>paf_y_idx<span style="color: #7388D6;">]</span><span style="color: #707183;">)</span>
+<span class="linenr">105: </span>        connection_all.extend<span style="color: #707183;">(</span>connection<span style="color: #707183;">)</span>
+<span class="linenr">106: </span>
+<span class="linenr">107: </span>    <span style="color: #BA36A5;">conns_by_human</span> = <span style="color: #006FE0;">dict</span><span style="color: #707183;">()</span>
+<span class="linenr">108: </span>    <span style="color: #0000FF;">for</span> idx, c <span style="color: #0000FF;">in</span> <span style="color: #006FE0;">enumerate</span><span style="color: #707183;">(</span>connection_all<span style="color: #707183;">)</span>:
+<span class="linenr">109: </span>        <span style="color: #BA36A5;">conns_by_human</span><span style="color: #707183;">[</span><span style="color: #008000;">'human_%d'</span> % idx<span style="color: #707183;">]</span> = <span style="color: #707183;">[</span>c<span style="color: #707183;">]</span> <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">at first, all connections belong to different humans</span>
+<span class="linenr">110: </span>
+<span class="linenr">111: </span>    <span style="color: #BA36A5;">no_merge_cache</span> = defaultdict<span style="color: #707183;">(</span><span style="color: #006FE0;">list</span><span style="color: #707183;">)</span>
+<span class="linenr">112: </span>    <span style="color: #BA36A5;">empty_set</span> = <span style="color: #006FE0;">set</span><span style="color: #707183;">()</span>
+<span class="linenr">113: </span>    <span style="color: #0000FF;">while</span> <span style="color: #D0372D;">True</span>:
+<span class="linenr">114: </span>        <span style="color: #BA36A5;">is_merged</span> = <span style="color: #D0372D;">False</span>
+<span class="linenr">115: </span>        <span style="color: #0000FF;">for</span> h1, h2 <span style="color: #0000FF;">in</span> itertools.combinations<span style="color: #707183;">(</span>conns_by_human.keys<span style="color: #7388D6;">()</span>, 2<span style="color: #707183;">)</span>:
+<span class="linenr">116: </span>            <span style="color: #0000FF;">if</span> h1 == h2:
+<span class="linenr">117: </span>                <span style="color: #0000FF;">continue</span>
+<span class="linenr">118: </span>            <span style="color: #0000FF;">if</span> h2 <span style="color: #0000FF;">in</span> no_merge_cache<span style="color: #707183;">[</span>h1<span style="color: #707183;">]</span>:
+<span class="linenr">119: </span>                <span style="color: #0000FF;">continue</span>
+<span class="linenr">120: </span>            <span style="color: #0000FF;">for</span> c1, c2 <span style="color: #0000FF;">in</span> itertools.product<span style="color: #707183;">(</span>conns_by_human<span style="color: #7388D6;">[</span>h1<span style="color: #7388D6;">]</span>, conns_by_human<span style="color: #7388D6;">[</span>h2<span style="color: #7388D6;">]</span><span style="color: #707183;">)</span>:
+<span class="linenr">121: </span>                <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">if two humans share a part (same part idx and coordinates), merge those humans</span>
+<span class="linenr">122: </span>                <span style="color: #0000FF;">if</span> <span style="color: #006FE0;">set</span><span style="color: #707183;">(</span>c1<span style="color: #7388D6;">[</span><span style="color: #008000;">'uPartIdx'</span><span style="color: #7388D6;">]</span><span style="color: #707183;">)</span> &amp; <span style="color: #006FE0;">set</span><span style="color: #707183;">(</span>c2<span style="color: #7388D6;">[</span><span style="color: #008000;">'uPartIdx'</span><span style="color: #7388D6;">]</span><span style="color: #707183;">)</span> != empty_set:
+<span class="linenr">123: </span>                    <span style="color: #BA36A5;">is_merged</span> = <span style="color: #D0372D;">True</span>
+<span class="linenr">124: </span>                    <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">extend human1 connectios with human2 connections</span>
+<span class="linenr">125: </span>                    conns_by_human<span style="color: #707183;">[</span>h1<span style="color: #707183;">]</span>.extend<span style="color: #707183;">(</span>conns_by_human<span style="color: #7388D6;">[</span>h2<span style="color: #7388D6;">]</span><span style="color: #707183;">)</span>
+<span class="linenr">126: </span>                    conns_by_human.pop<span style="color: #707183;">(</span>h2<span style="color: #707183;">)</span> <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">delete human2</span>
+<span class="linenr">127: </span>                    <span style="color: #0000FF;">break</span>
+<span class="linenr">128: </span>            <span style="color: #0000FF;">if</span> is_merged:
+<span class="linenr">129: </span>                no_merge_cache.pop<span style="color: #707183;">(</span>h1, <span style="color: #D0372D;">None</span><span style="color: #707183;">)</span>
+<span class="linenr">130: </span>                <span style="color: #0000FF;">break</span>
+<span class="linenr">131: </span>            <span style="color: #0000FF;">else</span>:
+<span class="linenr">132: </span>                no_merge_cache<span style="color: #707183;">[</span>h1<span style="color: #707183;">]</span>.append<span style="color: #707183;">(</span>h2<span style="color: #707183;">)</span>
+<span class="linenr">133: </span>
+<span class="linenr">134: </span>        <span style="color: #0000FF;">if</span> <span style="color: #0000FF;">not</span> is_merged: <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">if no more mergings are possible, then break</span>
+<span class="linenr">135: </span>            <span style="color: #0000FF;">break</span>
+<span class="linenr">136: </span>
+<span class="linenr">137: </span>    <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">reject by subset count</span>
+<span class="linenr">138: </span>    <span style="color: #BA36A5;">conns_by_human</span> = <span style="color: #707183;">{</span>h: conns <span style="color: #0000FF;">for</span> <span style="color: #7388D6;">(</span>h, conns<span style="color: #7388D6;">)</span> <span style="color: #0000FF;">in</span> conns_by_human.items<span style="color: #7388D6;">()</span> <span style="color: #0000FF;">if</span> <span style="color: #006FE0;">len</span><span style="color: #7388D6;">(</span>conns<span style="color: #7388D6;">)</span> &gt;= Min_Subset_Cnt<span style="color: #707183;">}</span>
+<span class="linenr">139: </span>    <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">reject by subset max score</span>
+<span class="linenr">140: </span>    <span style="color: #BA36A5;">conns_by_human</span> = <span style="color: #707183;">{</span>h: conns <span style="color: #0000FF;">for</span> <span style="color: #7388D6;">(</span>h, conns<span style="color: #7388D6;">)</span> <span style="color: #0000FF;">in</span> conns_by_human.items<span style="color: #7388D6;">()</span> <span style="color: #0000FF;">if</span> <span style="color: #006FE0;">max</span><span style="color: #7388D6;">(</span><span style="color: #909183;">[</span>conn<span style="color: #709870;">[</span><span style="color: #008000;">'score'</span><span style="color: #709870;">]</span> <span style="color: #0000FF;">for</span> conn <span style="color: #0000FF;">in</span> conns<span style="color: #909183;">]</span><span style="color: #7388D6;">)</span> &gt;= Min_Subset_Score<span style="color: #707183;">}</span>
+<span class="linenr">141: </span>
+<span class="linenr">142: </span>    <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">list of humans</span>
+<span class="linenr">143: </span>    <span style="color: #BA36A5;">humans</span> = <span style="color: #707183;">[</span>human_conns_to_human_parts<span style="color: #7388D6;">(</span>human_conns, heatMat<span style="color: #7388D6;">)</span> <span style="color: #0000FF;">for</span> human_conns <span style="color: #0000FF;">in</span> conns_by_human.values<span style="color: #7388D6;">()</span><span style="color: #707183;">]</span>
+<span class="linenr">144: </span>    <span style="color: #0000FF;">return</span> humans
+<span class="linenr">145: </span>
+<span class="linenr">146: </span>
+<span class="linenr">147: </span><span style="color: #0000FF;">def</span> <span style="color: #006699;">estimate_pose_pair</span><span style="color: #707183;">(</span>coords, partIdx1, partIdx2, pafMatX, pafMatY<span style="color: #707183;">)</span>:
+<span class="linenr">148: </span>    <span style="color: #BA36A5;">connection_temp</span> = <span style="color: #707183;">[]</span> <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">all possible connections</span>
+<span class="linenr">149: </span>    <span style="color: #BA36A5;">peak_coord1</span>, <span style="color: #BA36A5;">peak_coord2</span> = coords<span style="color: #707183;">[</span>partIdx1<span style="color: #707183;">]</span>, coords<span style="color: #707183;">[</span>partIdx2<span style="color: #707183;">]</span>
+<span class="linenr">150: </span>
+<span class="linenr">151: </span>    <span style="color: #0000FF;">for</span> idx1, <span style="color: #707183;">(</span>y1, x1<span style="color: #707183;">)</span> <span style="color: #0000FF;">in</span> <span style="color: #006FE0;">enumerate</span><span style="color: #707183;">(</span><span style="color: #006FE0;">zip</span><span style="color: #7388D6;">(</span>peak_coord1<span style="color: #909183;">[</span>0<span style="color: #909183;">]</span>, peak_coord1<span style="color: #909183;">[</span>1<span style="color: #909183;">]</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>:
+<span class="linenr">152: </span>        <span style="color: #0000FF;">for</span> idx2, <span style="color: #707183;">(</span>y2, x2<span style="color: #707183;">)</span> <span style="color: #0000FF;">in</span> <span style="color: #006FE0;">enumerate</span><span style="color: #707183;">(</span><span style="color: #006FE0;">zip</span><span style="color: #7388D6;">(</span>peak_coord2<span style="color: #909183;">[</span>0<span style="color: #909183;">]</span>, peak_coord2<span style="color: #909183;">[</span>1<span style="color: #909183;">]</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>:
+<span class="linenr">153: </span>            <span style="color: #BA36A5;">score</span>, <span style="color: #BA36A5;">count</span> = get_score<span style="color: #707183;">(</span>x1, y1, x2, y2, pafMatX, pafMatY<span style="color: #707183;">)</span>
+<span class="linenr">154: </span>            <span style="color: #0000FF;">if</span> <span style="color: #707183;">(</span>partIdx1, partIdx2<span style="color: #707183;">)</span> <span style="color: #0000FF;">in</span> <span style="color: #707183;">[</span><span style="color: #7388D6;">(</span>2, 3<span style="color: #7388D6;">)</span>, <span style="color: #7388D6;">(</span>3, 4<span style="color: #7388D6;">)</span>, <span style="color: #7388D6;">(</span>5, 6<span style="color: #7388D6;">)</span>, <span style="color: #7388D6;">(</span>6, 7<span style="color: #7388D6;">)</span><span style="color: #707183;">]</span>: <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">arms</span>
+<span class="linenr">155: </span>                <span style="color: #0000FF;">if</span> count &lt; InterMinAbove_Threshold // 2 <span style="color: #0000FF;">or</span> score &lt;= 0.0:
+<span class="linenr">156: </span>                    <span style="color: #0000FF;">continue</span>
+<span class="linenr">157: </span>            <span style="color: #0000FF;">elif</span> count &lt; InterMinAbove_Threshold <span style="color: #0000FF;">or</span> score &lt;= 0.0:
+<span class="linenr">158: </span>                <span style="color: #0000FF;">continue</span>
+<span class="linenr">159: </span>            connection_temp.append<span style="color: #707183;">(</span><span style="color: #7388D6;">{</span>
+<span class="linenr">160: </span>                <span style="color: #008000;">'score'</span>: score,
+<span class="linenr">161: </span>                <span style="color: #008000;">'coord_p1'</span>: <span style="color: #909183;">(</span>x1, y1<span style="color: #909183;">)</span>,
+<span class="linenr">162: </span>                <span style="color: #008000;">'coord_p2'</span>: <span style="color: #909183;">(</span>x2, y2<span style="color: #909183;">)</span>,
+<span class="linenr">163: </span>                <span style="color: #008000;">'idx'</span>: <span style="color: #909183;">(</span>idx1, idx2<span style="color: #909183;">)</span>, <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">connection candidate identifier</span>
+<span class="linenr">164: </span>                <span style="color: #008000;">'partIdx'</span>: <span style="color: #909183;">(</span>partIdx1, partIdx2<span style="color: #909183;">)</span>,
+<span class="linenr">165: </span>                <span style="color: #008000;">'uPartIdx'</span>: <span style="color: #909183;">(</span><span style="color: #008000;">'{}-{}-{}'</span>.<span style="color: #006FE0;">format</span><span style="color: #709870;">(</span>x1, y1, partIdx1<span style="color: #709870;">)</span>, <span style="color: #008000;">'{}-{}-{}'</span>.<span style="color: #006FE0;">format</span><span style="color: #709870;">(</span>x2, y2, partIdx2<span style="color: #709870;">)</span><span style="color: #909183;">)</span>
+<span class="linenr">166: </span>            <span style="color: #7388D6;">}</span><span style="color: #707183;">)</span>
+<span class="linenr">167: </span>
+<span class="linenr">168: </span>    <span style="color: #BA36A5;">connection</span> = <span style="color: #707183;">[]</span>
+<span class="linenr">169: </span>    <span style="color: #BA36A5;">used_idx1</span>, <span style="color: #BA36A5;">used_idx2</span> = <span style="color: #707183;">[]</span>, <span style="color: #707183;">[]</span>
+<span class="linenr">170: </span>    <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">sort possible connections by score, from maximum to minimum</span>
+<span class="linenr">171: </span>    <span style="color: #0000FF;">for</span> conn_candidate <span style="color: #0000FF;">in</span> <span style="color: #006FE0;">sorted</span><span style="color: #707183;">(</span>connection_temp, key=<span style="color: #0000FF;">lambda</span> x: x<span style="color: #7388D6;">[</span><span style="color: #008000;">'score'</span><span style="color: #7388D6;">]</span>, reverse=<span style="color: #D0372D;">True</span><span style="color: #707183;">)</span>:
+<span class="linenr">172: </span>        <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">check not connected</span>
+<span class="linenr">173: </span>        <span style="color: #0000FF;">if</span> conn_candidate<span style="color: #707183;">[</span><span style="color: #008000;">'idx'</span><span style="color: #707183;">][</span>0<span style="color: #707183;">]</span> <span style="color: #0000FF;">in</span> used_idx1 <span style="color: #0000FF;">or</span> conn_candidate<span style="color: #707183;">[</span><span style="color: #008000;">'idx'</span><span style="color: #707183;">][</span>1<span style="color: #707183;">]</span> <span style="color: #0000FF;">in</span> used_idx2:
+<span class="linenr">174: </span>            <span style="color: #0000FF;">continue</span>
+<span class="linenr">175: </span>        connection.append<span style="color: #707183;">(</span>conn_candidate<span style="color: #707183;">)</span>
+<span class="linenr">176: </span>        used_idx1.append<span style="color: #707183;">(</span>conn_candidate<span style="color: #7388D6;">[</span><span style="color: #008000;">'idx'</span><span style="color: #7388D6;">][</span>0<span style="color: #7388D6;">]</span><span style="color: #707183;">)</span>
+<span class="linenr">177: </span>        used_idx2.append<span style="color: #707183;">(</span>conn_candidate<span style="color: #7388D6;">[</span><span style="color: #008000;">'idx'</span><span style="color: #7388D6;">][</span>1<span style="color: #7388D6;">]</span><span style="color: #707183;">)</span>
+<span class="linenr">178: </span>
+<span class="linenr">179: </span>    <span style="color: #0000FF;">return</span> connection
+<span class="linenr">180: </span>
+<span class="linenr">181: </span>
+<span class="linenr">182: </span><span style="color: #0000FF;">def</span> <span style="color: #006699;">get_score</span><span style="color: #707183;">(</span>x1, y1, x2, y2, pafMatX, pafMatY<span style="color: #707183;">)</span>:
+<span class="linenr">183: </span>    <span style="color: #BA36A5;">num_inter</span> = 10
+<span class="linenr">184: </span>    <span style="color: #BA36A5;">dx</span>, <span style="color: #BA36A5;">dy</span> = x2 - x1, y2 - y1
+<span class="linenr">185: </span>    <span style="color: #BA36A5;">normVec</span> = math.sqrt<span style="color: #707183;">(</span>dx ** 2 + dy ** 2<span style="color: #707183;">)</span>
+<span class="linenr">186: </span>
+<span class="linenr">187: </span>    <span style="color: #0000FF;">if</span> normVec &lt; 1e-4:
+<span class="linenr">188: </span>        <span style="color: #0000FF;">return</span> 0.0, 0
+<span class="linenr">189: </span>
+<span class="linenr">190: </span>    <span style="color: #BA36A5;">vx</span>, <span style="color: #BA36A5;">vy</span> = dx / normVec, dy / normVec
+<span class="linenr">191: </span>
+<span class="linenr">192: </span>    <span style="color: #BA36A5;">xs</span> = np.arange<span style="color: #707183;">(</span>x1, x2, dx / num_inter<span style="color: #707183;">)</span> <span style="color: #0000FF;">if</span> x1 != x2 <span style="color: #0000FF;">else</span> np.full<span style="color: #707183;">(</span><span style="color: #7388D6;">(</span>num_inter, <span style="color: #7388D6;">)</span>, x1<span style="color: #707183;">)</span>
+<span class="linenr">193: </span>    <span style="color: #BA36A5;">ys</span> = np.arange<span style="color: #707183;">(</span>y1, y2, dy / num_inter<span style="color: #707183;">)</span> <span style="color: #0000FF;">if</span> y1 != y2 <span style="color: #0000FF;">else</span> np.full<span style="color: #707183;">(</span><span style="color: #7388D6;">(</span>num_inter, <span style="color: #7388D6;">)</span>, y1<span style="color: #707183;">)</span>
+<span class="linenr">194: </span>    <span style="color: #BA36A5;">xs</span> = <span style="color: #707183;">(</span>xs + 0.5<span style="color: #707183;">)</span>.astype<span style="color: #707183;">(</span>np.int8<span style="color: #707183;">)</span>
+<span class="linenr">195: </span>    <span style="color: #BA36A5;">ys</span> = <span style="color: #707183;">(</span>ys + 0.5<span style="color: #707183;">)</span>.astype<span style="color: #707183;">(</span>np.int8<span style="color: #707183;">)</span>
+<span class="linenr">196: </span>
+<span class="linenr">197: </span>    <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">without vectorization</span>
+<span class="linenr">198: </span>    <span style="color: #BA36A5;">pafXs</span> = np.zeros<span style="color: #707183;">(</span>num_inter<span style="color: #707183;">)</span>
+<span class="linenr">199: </span>    <span style="color: #BA36A5;">pafYs</span> = np.zeros<span style="color: #707183;">(</span>num_inter<span style="color: #707183;">)</span>
+<span class="linenr">200: </span>    <span style="color: #0000FF;">for</span> idx, <span style="color: #707183;">(</span>mx, my<span style="color: #707183;">)</span> <span style="color: #0000FF;">in</span> <span style="color: #006FE0;">enumerate</span><span style="color: #707183;">(</span><span style="color: #006FE0;">zip</span><span style="color: #7388D6;">(</span>xs, ys<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>:
+<span class="linenr">201: </span>        <span style="color: #BA36A5;">pafXs</span><span style="color: #707183;">[</span>idx<span style="color: #707183;">]</span> = pafMatX<span style="color: #707183;">[</span>my<span style="color: #707183;">][</span>mx<span style="color: #707183;">]</span>
+<span class="linenr">202: </span>        <span style="color: #BA36A5;">pafYs</span><span style="color: #707183;">[</span>idx<span style="color: #707183;">]</span> = pafMatY<span style="color: #707183;">[</span>my<span style="color: #707183;">][</span>mx<span style="color: #707183;">]</span>
+<span class="linenr">203: </span>
+<span class="linenr">204: </span>    <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">vectorization slow?</span>
+<span class="linenr">205: </span>    <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">pafXs = pafMatX[ys, xs]</span>
+<span class="linenr">206: </span>    <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">pafYs = pafMatY[ys, xs]</span>
+<span class="linenr">207: </span>
+<span class="linenr">208: </span>    <span style="color: #BA36A5;">local_scores</span> = pafXs * vx + pafYs * vy
+<span class="linenr">209: </span>    <span style="color: #BA36A5;">thidxs</span> = local_scores &gt; Inter_Threashold
+<span class="linenr">210: </span>
+<span class="linenr">211: </span>    <span style="color: #0000FF;">return</span> <span style="color: #006FE0;">sum</span><span style="color: #707183;">(</span>local_scores * thidxs<span style="color: #707183;">)</span>, <span style="color: #006FE0;">sum</span><span style="color: #707183;">(</span>thidxs<span style="color: #707183;">)</span>
+<span class="linenr">212: </span>
+<span class="linenr">213: </span>
+<span class="linenr">214: </span><span style="color: #0000FF;">def</span> <span style="color: #006699;">read_imgfile</span><span style="color: #707183;">(</span>path, width, height<span style="color: #707183;">)</span>:
+<span class="linenr">215: </span>    <span style="color: #BA36A5;">img</span> = cv2.imread<span style="color: #707183;">(</span>path<span style="color: #707183;">)</span>
+<span class="linenr">216: </span>    <span style="color: #BA36A5;">val_img</span> = preprocess<span style="color: #707183;">(</span>img, width, height<span style="color: #707183;">)</span>
+<span class="linenr">217: </span>    <span style="color: #0000FF;">return</span> val_img
+<span class="linenr">218: </span>
+<span class="linenr">219: </span>
+<span class="linenr">220: </span><span style="color: #0000FF;">def</span> <span style="color: #006699;">preprocess</span><span style="color: #707183;">(</span>img, width, height<span style="color: #707183;">)</span>:
+<span class="linenr">221: </span>    <span style="color: #BA36A5;">val_img</span> = cv2.cvtColor<span style="color: #707183;">(</span>img, cv2.COLOR_BGR2RGB<span style="color: #707183;">)</span> <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">cv2 reads in BGR format</span>
+<span class="linenr">222: </span>    <span style="color: #BA36A5;">val_img</span> = cv2.resize<span style="color: #707183;">(</span>val_img, <span style="color: #7388D6;">(</span>width, height<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span> <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">each net accept only a certain size</span>
+<span class="linenr">223: </span>    <span style="color: #BA36A5;">val_img</span> = val_img.reshape<span style="color: #707183;">(</span><span style="color: #7388D6;">[</span>1, height, width, 3<span style="color: #7388D6;">]</span><span style="color: #707183;">)</span>
+<span class="linenr">224: </span>    <span style="color: #BA36A5;">val_img</span> = val_img.astype<span style="color: #707183;">(</span><span style="color: #006FE0;">float</span><span style="color: #707183;">)</span>
+<span class="linenr">225: </span>    <span style="color: #BA36A5;">val_img</span> = val_img * <span style="color: #707183;">(</span>2.0 / 255.0<span style="color: #707183;">)</span> - 1.0 <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">image range from -1 to +1</span>
+<span class="linenr">226: </span>    <span style="color: #0000FF;">return</span> val_img
+<span class="linenr">227: </span>
+<span class="linenr">228: </span>
+<span class="linenr">229: </span><span style="color: #0000FF;">def</span> <span style="color: #006699;">draw_humans</span><span style="color: #707183;">(</span>img, human_list<span style="color: #707183;">)</span>:
+<span class="linenr">230: </span>    <span style="color: #BA36A5;">img_copied</span> = np.copy<span style="color: #707183;">(</span>img<span style="color: #707183;">)</span>
+<span class="linenr">231: </span>    <span style="color: #BA36A5;">image_h</span>, <span style="color: #BA36A5;">image_w</span> = img_copied.shape<span style="color: #707183;">[</span>:2<span style="color: #707183;">]</span>
+<span class="linenr">232: </span>    <span style="color: #BA36A5;">centers</span> = <span style="color: #707183;">{}</span>
+<span class="linenr">233: </span>    <span style="color: #0000FF;">for</span> human <span style="color: #0000FF;">in</span> human_list:
+<span class="linenr">234: </span>        <span style="color: #BA36A5;">part_idxs</span> = human.keys<span style="color: #707183;">()</span>
+<span class="linenr">235: </span>
+<span class="linenr">236: </span>        <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">draw point</span>
+<span class="linenr">237: </span>        <span style="color: #0000FF;">for</span> i <span style="color: #0000FF;">in</span> <span style="color: #006FE0;">range</span><span style="color: #707183;">(</span>CocoPart.Background.value<span style="color: #707183;">)</span>:
+<span class="linenr">238: </span>            <span style="color: #0000FF;">if</span> i <span style="color: #0000FF;">not</span> <span style="color: #0000FF;">in</span> part_idxs:
+<span class="linenr">239: </span>                <span style="color: #0000FF;">continue</span>
+<span class="linenr">240: </span>            <span style="color: #BA36A5;">part_coord</span> = human<span style="color: #707183;">[</span>i<span style="color: #707183;">][</span>1<span style="color: #707183;">]</span>
+<span class="linenr">241: </span>            <span style="color: #BA36A5;">center</span> = <span style="color: #707183;">(</span><span style="color: #006FE0;">int</span><span style="color: #7388D6;">(</span>part_coord<span style="color: #909183;">[</span>0<span style="color: #909183;">]</span> * image_w + 0.5<span style="color: #7388D6;">)</span>, <span style="color: #006FE0;">int</span><span style="color: #7388D6;">(</span>part_coord<span style="color: #909183;">[</span>1<span style="color: #909183;">]</span> * image_h + 0.5<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+<span class="linenr">242: </span>            <span style="color: #BA36A5;">centers</span><span style="color: #707183;">[</span>i<span style="color: #707183;">]</span> = center
+<span class="linenr">243: </span>            cv2.circle<span style="color: #707183;">(</span>img_copied, center, 3, CocoColors<span style="color: #7388D6;">[</span>i<span style="color: #7388D6;">]</span>, thickness=3, lineType=8, shift=0<span style="color: #707183;">)</span>
+<span class="linenr">244: </span>
+<span class="linenr">245: </span>        <span style="color: #8D8D84;"># </span><span style="color: #8D8D84; font-style: italic;">draw line</span>
+<span class="linenr">246: </span>        <span style="color: #0000FF;">for</span> pair_order, pair <span style="color: #0000FF;">in</span> <span style="color: #006FE0;">enumerate</span><span style="color: #707183;">(</span>CocoPairsRender<span style="color: #707183;">)</span>:
+<span class="linenr">247: </span>            <span style="color: #0000FF;">if</span> pair<span style="color: #707183;">[</span>0<span style="color: #707183;">]</span> <span style="color: #0000FF;">not</span> <span style="color: #0000FF;">in</span> part_idxs <span style="color: #0000FF;">or</span> pair<span style="color: #707183;">[</span>1<span style="color: #707183;">]</span> <span style="color: #0000FF;">not</span> <span style="color: #0000FF;">in</span> part_idxs:
+<span class="linenr">248: </span>                <span style="color: #0000FF;">continue</span>
+<span class="linenr">249: </span>
+<span class="linenr">250: </span>            <span style="color: #BA36A5;">img_copied</span> = cv2.line<span style="color: #707183;">(</span>img_copied, centers<span style="color: #7388D6;">[</span>pair<span style="color: #909183;">[</span>0<span style="color: #909183;">]</span><span style="color: #7388D6;">]</span>, centers<span style="color: #7388D6;">[</span>pair<span style="color: #909183;">[</span>1<span style="color: #909183;">]</span><span style="color: #7388D6;">]</span>, CocoColors<span style="color: #7388D6;">[</span>pair_order<span style="color: #7388D6;">]</span>, 3<span style="color: #707183;">)</span>
+<span class="linenr">251: </span>
+<span class="linenr">252: </span>    <span style="color: #0000FF;">return</span> img_copied
+</pre>
+</div>
 </div>
 </li>
 </ol>
@@ -1371,8 +1212,8 @@ img_copied = cv2.line(img_copied, centers[pair[0]], centers[pair[1]], CocoColors
 </div>
 </div>
 </div>
-<div id="outline-container-orgbea3e21" class="outline-2">
-<h2 id="orgbea3e21"><span class="section-number-2">4</span> Reference</h2>
+<div id="outline-container-org7b5b5bf" class="outline-2">
+<h2 id="org7b5b5bf"><span class="section-number-2">4</span> Reference</h2>
 <div class="outline-text-2" id="text-4">
 <ol class="org-ol">
 <li><a href="https://arvrjourney.com/human-pose-estimation-using-openpose-with-tensorflow-part-2-e78ab9104fc8">Human pose estimation using OpenPose with TensorFlow (Part 2)</a></li>
@@ -1387,7 +1228,7 @@ img_copied = cv2.line(img_copied, centers[pair[0]], centers[pair[1]], CocoColors
 <div id="postamble" class="status">
 <p class="date">Date: 2018-08-12 Sun 00:00</p>
 <p class="author">Author: Sarath.M</p>
-<p class="date">Created: 2018-08-12 Sun 17:33</p>
+<p class="date">Created: 2018-08-12 Sun 17:39</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
