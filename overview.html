@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2018-08-12 Sun 16:36 -->
+<!-- 2018-08-12 Sun 17:27 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Human pose estimation using OpenPose</title>
@@ -240,36 +240,108 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orga1c1b78">1. Porting from Caffe to Tensorflow</a></li>
-<li><a href="#org5a6cb76">2. Working of OpenPose</a>
+<li><a href="#org0a81294">1. OpenPose</a>
 <ul>
-<li><a href="#orgb399a28">2.1. Parts and Pairs</a></li>
-<li><a href="#orgc679fbd">2.2. Tensorflow Implementation</a>
-<ul>
-<li><a href="#org8ccba9a">2.2.1. Preprocessing</a></li>
-<li><a href="#orgab963db">2.2.2. Neural network</a></li>
-<li><a href="#org9b11998">2.2.3. Non Maximum Suppression</a></li>
-<li><a href="#orge0efd61">2.2.4. Bipartite graph</a></li>
-<li><a href="#org2beee76">2.2.5. Line Integral</a></li>
-<li><a href="#org0e631fc">2.2.6. Assignment</a></li>
-<li><a href="#org8f5ff66">2.2.7. Merging</a></li>
-<li><a href="#org650c0c3">2.2.8. Output</a></li>
+<li><a href="#orgb99a781">1.1. OpenPose vs Kinect</a></li>
+<li><a href="#org900e828">1.2. Image Segmentation</a></li>
 </ul>
 </li>
-<li><a href="#orgadf3276">2.3. Github Repository</a>
+<li><a href="#org801492e">2. Porting from Caffe to Tensorflow</a></li>
+<li><a href="#org002660c">3. Working of OpenPose</a>
 <ul>
-<li><a href="#orgd43eb2d">2.3.1. Installation</a></li>
+<li><a href="#orgd85f291">3.1. Parts and Pairs</a></li>
+<li><a href="#org283c6be">3.2. Tensorflow Implementation</a>
+<ul>
+<li><a href="#org32045b2">3.2.1. Preprocessing</a></li>
+<li><a href="#org48ad5ff">3.2.2. Neural network</a></li>
+<li><a href="#org37d10c0">3.2.3. Non Maximum Suppression</a></li>
+<li><a href="#org174f587">3.2.4. Bipartite graph</a></li>
+<li><a href="#org79aec41">3.2.5. Line Integral</a></li>
+<li><a href="#orgfff4d48">3.2.6. Assignment</a></li>
+<li><a href="#orgfbb5378">3.2.7. Merging</a></li>
+<li><a href="#org722fd4e">3.2.8. Output</a></li>
+</ul>
+</li>
+<li><a href="#org26a3715">3.3. Github Repository</a>
+<ul>
+<li><a href="#orge1f27ac">3.3.1. Installation</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li><a href="#orgdb46fdf">4. Reference</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orga1c1b78" class="outline-2">
-<h2 id="orga1c1b78"><span class="section-number-2">1</span> Porting from Caffe to Tensorflow</h2>
+<div id="outline-container-org0a81294" class="outline-2">
+<h2 id="org0a81294"><span class="section-number-2">1</span> OpenPose</h2>
 <div class="outline-text-2" id="text-1">
+
+<div class="figure">
+<p><img src="./images/openpose.png" alt="openpose.png" />
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="https://cdn-images-1.medium.com/max/800/1*zNs763GXlKR2zOAbJ8j72Q.gif" alt="1*zNs763GXlKR2zOAbJ8j72Q.gif" />
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb99a781" class="outline-3">
+<h3 id="orgb99a781"><span class="section-number-3">1.1</span> OpenPose vs Kinect</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>both Kinect and Openpose have the same net result: allowing real
+time pose estimation of human bodies. The main difference is the
+hardware: While Kinect uses a special <b>3D camera</b>, OpenPose works on
+any <b>webcam</b></li>
+<li><p>
+Pose estimation from a depth image
+</p>
+
+
+<div class="figure">
+<p><img src="./images/kinect.jpeg" alt="kinect.jpeg" />
+</p>
+</div>
+<ul class="org-ul">
+<li>In this algorithm, the first two steps are very important, and it
+is here that the Kinect hardware is crucial</li>
+<li>thanks to the Kinect hardware, you essentially get the first two
+steps for free</li>
+<li>These first two steps are essentially the biggest challenge
+tackled by OpenPose and boils down to an important research domain
+in Computer Vision: <b>image segmentation</b></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org900e828" class="outline-3">
+<h3 id="org900e828"><span class="section-number-3">1.2</span> Image Segmentation</h3>
+<div class="outline-text-3" id="text-1-2">
+
+<div class="figure">
+<p><img src="./images/segmentation.png" alt="segmentation.png" />
+</p>
+</div>
+<ul class="org-ul">
+<li>The big difference is that, instead of a 3D human blob, OpenPose
+starts out with a completely flat image, containing both the
+person(s) of interest and the background. Obviously, the first part
+of the OpenPose algorithm therefore needs to seperate the POI’s from
+the background. This is exactly what Image Segmentation tries to
+achieve.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org801492e" class="outline-2">
+<h2 id="org801492e"><span class="section-number-2">2</span> Porting from Caffe to Tensorflow</h2>
+<div class="outline-text-2" id="text-2">
 <ul class="org-ul">
 <li>The OpenPose library is built upon a neural network and has been
 developed by Carnegie Mellon University with astounding help of COCO
@@ -380,17 +452,17 @@ pose/bodyPartConnectorCaffe.cpp
 </ul>
 </div>
 </div>
-<div id="outline-container-org5a6cb76" class="outline-2">
-<h2 id="org5a6cb76"><span class="section-number-2">2</span> Working of OpenPose</h2>
-<div class="outline-text-2" id="text-2">
+<div id="outline-container-org002660c" class="outline-2">
+<h2 id="org002660c"><span class="section-number-2">3</span> Working of OpenPose</h2>
+<div class="outline-text-2" id="text-3">
 <p>
 <img src="./images/openPose_pipeline.png" alt="openPose_pipeline.png" />
 Each part of the pipeline will be explained in the following sections
 </p>
 </div>
-<div id="outline-container-orgb399a28" class="outline-3">
-<h3 id="orgb399a28"><span class="section-number-3">2.1</span> Parts and Pairs</h3>
-<div class="outline-text-3" id="text-2-1">
+<div id="outline-container-orgd85f291" class="outline-3">
+<h3 id="orgd85f291"><span class="section-number-3">3.1</span> Parts and Pairs</h3>
+<div class="outline-text-3" id="text-3-1">
 <ul class="org-ul">
 <li>A body <b>part</b> is an element of the body, like neck, left shoulder or right hip.</li>
 <li><p>
@@ -408,13 +480,13 @@ between ears and shoulders that do not exist in real life.
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc679fbd" class="outline-3">
-<h3 id="orgc679fbd"><span class="section-number-3">2.2</span> Tensorflow Implementation</h3>
-<div class="outline-text-3" id="text-2-2">
+<div id="outline-container-org283c6be" class="outline-3">
+<h3 id="org283c6be"><span class="section-number-3">3.2</span> Tensorflow Implementation</h3>
+<div class="outline-text-3" id="text-3-2">
 </div>
-<div id="outline-container-org8ccba9a" class="outline-4">
-<h4 id="org8ccba9a"><span class="section-number-4">2.2.1</span> Preprocessing</h4>
-<div class="outline-text-4" id="text-2-2-1">
+<div id="outline-container-org32045b2" class="outline-4">
+<h4 id="org32045b2"><span class="section-number-4">3.2.1</span> Preprocessing</h4>
+<div class="outline-text-4" id="text-3-2-1">
 <ul class="org-ul">
 <li>First but not least, we convert the image from [0,</li>
 </ul>
@@ -427,9 +499,9 @@ between ears and shoulders that do not exist in real life.
 </div>
 </div>
 </div>
-<div id="outline-container-orgab963db" class="outline-4">
-<h4 id="orgab963db"><span class="section-number-4">2.2.2</span> Neural network</h4>
-<div class="outline-text-4" id="text-2-2-2">
+<div id="outline-container-org48ad5ff" class="outline-4">
+<h4 id="org48ad5ff"><span class="section-number-4">3.2.2</span> Neural network</h4>
+<div class="outline-text-4" id="text-3-2-2">
 <ul class="org-ul">
 <li><p>
 Here we do the main processing. The last operation of the neural
@@ -495,9 +567,9 @@ Code implementation:
 </ul>
 </div>
 </div>
-<div id="outline-container-org9b11998" class="outline-4">
-<h4 id="org9b11998"><span class="section-number-4">2.2.3</span> Non Maximum Suppression</h4>
-<div class="outline-text-4" id="text-2-2-3">
+<div id="outline-container-org37d10c0" class="outline-4">
+<h4 id="org37d10c0"><span class="section-number-4">3.2.3</span> Non Maximum Suppression</h4>
+<div class="outline-text-4" id="text-3-2-3">
 <p>
 Next step is detecting the parts in the image.
 </p>
@@ -543,9 +615,9 @@ part candidates.
 </div>
 </div>
 </div>
-<div id="outline-container-orge0efd61" class="outline-4">
-<h4 id="orge0efd61"><span class="section-number-4">2.2.4</span> Bipartite graph</h4>
-<div class="outline-text-4" id="text-2-2-4">
+<div id="outline-container-org174f587" class="outline-4">
+<h4 id="org174f587"><span class="section-number-4">3.2.4</span> Bipartite graph</h4>
+<div class="outline-text-4" id="text-3-2-4">
 <p>
 Now that we have found the candidates for each one of the body parts,
 we need to connect them to form pairs. And this is where graph theory
@@ -575,9 +647,9 @@ edge on the graph should have a weight.
 </p>
 </div>
 </div>
-<div id="outline-container-org2beee76" class="outline-4">
-<h4 id="org2beee76"><span class="section-number-4">2.2.5</span> Line Integral</h4>
-<div class="outline-text-4" id="text-2-2-5">
+<div id="outline-container-org79aec41" class="outline-4">
+<h4 id="org79aec41"><span class="section-number-4">3.2.5</span> Line Integral</h4>
+<div class="outline-text-4" id="text-3-2-5">
 
 <div class="figure">
 <p><img src="./images/line_integral.png" alt="line_integral.png" />
@@ -631,9 +703,9 @@ of the dot product and sum them all.
 </div>
 </div>
 </div>
-<div id="outline-container-org0e631fc" class="outline-4">
-<h4 id="org0e631fc"><span class="section-number-4">2.2.6</span> Assignment</h4>
-<div class="outline-text-4" id="text-2-2-6">
+<div id="outline-container-orgfff4d48" class="outline-4">
+<h4 id="orgfff4d48"><span class="section-number-4">3.2.6</span> Assignment</h4>
+<div class="outline-text-4" id="text-3-2-6">
 <ul class="org-ul">
 <li>Now, the weighted bipartite graph shows all connections between
 candidates of two parts and holds score for every connection.</li>
@@ -675,9 +747,9 @@ Source Code
 </ul>
 </div>
 </div>
-<div id="outline-container-org8f5ff66" class="outline-4">
-<h4 id="org8f5ff66"><span class="section-number-4">2.2.7</span> Merging</h4>
-<div class="outline-text-4" id="text-2-2-7">
+<div id="outline-container-orgfbb5378" class="outline-4">
+<h4 id="orgfbb5378"><span class="section-number-4">3.2.7</span> Merging</h4>
+<div class="outline-text-4" id="text-3-2-7">
 <ul class="org-ul">
 <li>final step is to transform these detected connections into the final skeletons</li>
 <li>We will start with a naive assumption: at first, every connection
@@ -747,9 +819,9 @@ done, we finally describe a human as a set of parts.
 </div>
 </div>
 </div>
-<div id="outline-container-org650c0c3" class="outline-4">
-<h4 id="org650c0c3"><span class="section-number-4">2.2.8</span> Output</h4>
-<div class="outline-text-4" id="text-2-2-8">
+<div id="outline-container-org722fd4e" class="outline-4">
+<h4 id="org722fd4e"><span class="section-number-4">3.2.8</span> Output</h4>
+<div class="outline-text-4" id="text-3-2-8">
 <p>
 Finally what you get is a collection of human sets, where each human
 is a set of parts, where each part contains its index, its relative
@@ -758,17 +830,17 @@ coordinates and its score.
 </div>
 </div>
 </div>
-<div id="outline-container-orgadf3276" class="outline-3">
-<h3 id="orgadf3276"><span class="section-number-3">2.3</span> Github Repository</h3>
-<div class="outline-text-3" id="text-2-3">
+<div id="outline-container-org26a3715" class="outline-3">
+<h3 id="org26a3715"><span class="section-number-3">3.3</span> Github Repository</h3>
+<div class="outline-text-3" id="text-3-3">
 </div>
-<div id="outline-container-orgd43eb2d" class="outline-4">
-<h4 id="orgd43eb2d"><span class="section-number-4">2.3.1</span> Installation</h4>
-<div class="outline-text-4" id="text-2-3-1">
+<div id="outline-container-orge1f27ac" class="outline-4">
+<h4 id="orge1f27ac"><span class="section-number-4">3.3.1</span> Installation</h4>
+<div class="outline-text-4" id="text-3-3-1">
 </div>
 <ol class="org-ol">
-<li><a id="org7886053"></a>Dependencies<br />
-<div class="outline-text-5" id="text-2-3-1-1">
+<li><a id="orgb65a03d"></a>Dependencies<br />
+<div class="outline-text-5" id="text-3-3-1-1">
 <ul class="org-ul">
 <li>Python 3</li>
 <li>TensorFlow</li>
@@ -779,8 +851,8 @@ coordinates and its score.
 </ul>
 </div>
 </li>
-<li><a id="orge94d196"></a>Build the code<br />
-<div class="outline-text-5" id="text-2-3-1-2">
+<li><a id="orgbf16942"></a>Build the code<br />
+<div class="outline-text-5" id="text-3-3-1-2">
 <div class="org-src-container">
 <pre class="src src-sh">git clone https://gist.github.com/alesolano/b073d8ec9603246f766f9f15d002f4f4 openpose_pipeline
 <span style="color: #006FE0;">cd</span> openpose_pipeline
@@ -793,10 +865,10 @@ python inference.py --imgpath /path/to/your/img
 </div>
 </div>
 </li>
-<li><a id="org88500d3"></a>Main files from the repo<br />
+<li><a id="org7e862bf"></a>Main files from the repo<br />
 <ol class="org-ol">
-<li><a id="orgae5f014"></a>inference.py<br />
-<div class="outline-text-6" id="text-2-3-1-3-1">
+<li><a id="orgf2bfac6"></a>inference.py<br />
+<div class="outline-text-6" id="text-3-3-1-3-1">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #036A07;">'''</span>
 <span style="color: #036A07;">All code is highly based on Ildoo Kim's code (https://github.com/ildoonet/tf-openpose)</span>
@@ -875,8 +947,8 @@ python inference.py --imgpath /path/to/your/img
 </div>
 </div>
 </li>
-<li><a id="org329c4c0"></a>common.py<br />
-<div class="outline-text-6" id="text-2-3-1-3-2">
+<li><a id="org3c5eb21"></a>common.py<br />
+<div class="outline-text-6" id="text-3-3-1-3-2">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #036A07;">'''</span>
 <span style="color: #036A07;">All code is highly based on Ildoo Kim's code (https://github.com/ildoonet/tf-openpose)</span>
@@ -1140,11 +1212,21 @@ python inference.py --imgpath /path/to/your/img
 </div>
 </div>
 </div>
+<div id="outline-container-orgdb46fdf" class="outline-2">
+<h2 id="orgdb46fdf"><span class="section-number-2">4</span> Reference</h2>
+<div class="outline-text-2" id="text-4">
+<ol class="org-ol">
+<li><a href="https://arvrjourney.com/human-pose-estimation-using-openpose-with-tensorflow-part-2-e78ab9104fc8">Human pose estimation using OpenPose with TensorFlow (Part 2)</a></li>
+<li><a href="https://medium.com/brainjar/robust-real-time-pose-estimation-with-openpose-89ae39ee05ed">Robust Real-Time Pose Estimation with OpenPose</a></li>
+<li><a href="https://github.com/CMU-Perceptual-Computing-Lab/openpose">OpenPose official github repo</a></li>
+</ol>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
 <p class="date">Date: 2018-08-12 Sun 00:00</p>
 <p class="author">Author: Sarath.M</p>
-<p class="date">Created: 2018-08-12 Sun 16:36</p>
+<p class="date">Created: 2018-08-12 Sun 17:27</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

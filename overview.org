@@ -13,6 +13,37 @@
 #+CREATOR: Emacs 26.1 (Org mode 9.1.13)
 #+SETUPFILE: ~/.emacs.d/lisp/org-html-themes/setup/theme-readtheorg.setup
 
+* OpenPose
+
+[[./images/openpose.png]]
+
+[[https://cdn-images-1.medium.com/max/800/1*zNs763GXlKR2zOAbJ8j72Q.gif]]
+
+** OpenPose vs Kinect
+- both Kinect and Openpose have the same net result: allowing real
+  time pose estimation of human bodies. The main difference is the
+  hardware: While Kinect uses a special *3D camera*, OpenPose works on
+  any *webcam*
+- Pose estimation from a depth image
+  
+  [[./images/kinect.jpeg]]
+  - In this algorithm, the first two steps are very important, and it
+    is here that the Kinect hardware is crucial
+  - thanks to the Kinect hardware, you essentially get the first two
+    steps for free
+  - These first two steps are essentially the biggest challenge
+    tackled by OpenPose and boils down to an important research domain
+    in Computer Vision: *image segmentation*
+
+** Image Segmentation
+
+[[./images/segmentation.png]]
+- The big difference is that, instead of a 3D human blob, OpenPose
+  starts out with a completely flat image, containing both the
+  person(s) of interest and the background. Obviously, the first part
+  of the OpenPose algorithm therefore needs to seperate the POI’s from
+  the background. This is exactly what Image Segmentation tries to
+  achieve.
 * Porting from Caffe to Tensorflow
 - The OpenPose library is built upon a neural network and has been
   developed by Carnegie Mellon University with astounding help of COCO
@@ -673,3 +704,7 @@ if __name__ == '__main__':
 
       return img_copied
 #+END_SRC
+* Reference
+1. [[https://arvrjourney.com/human-pose-estimation-using-openpose-with-tensorflow-part-2-e78ab9104fc8][Human pose estimation using OpenPose with TensorFlow (Part 2)]]
+2. [[https://medium.com/brainjar/robust-real-time-pose-estimation-with-openpose-89ae39ee05ed][Robust Real-Time Pose Estimation with OpenPose]]
+3. [[https://github.com/CMU-Perceptual-Computing-Lab/openpose][OpenPose official github repo]]
